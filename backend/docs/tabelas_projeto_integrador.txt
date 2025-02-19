@@ -1,0 +1,132 @@
+CREATE TYPE cargo AS ENUM ('Professor', 'Aluno', 'Secretaria');
+
+
+CREATE TABLE usuarios(
+	id_usuario SERIAL PRIMARY KEY,
+	status BOOLEAN NOT NULL,
+	login VARCHAR(100) NOT NULL,
+	senha VARCHAR(255) NOT NULL,
+	nome VARCHAR(100) NOT NULL,
+	ra INTEGER UNIQUE,
+	cargo cargo
+);
+
+CREATE TABLE secretaria(
+	id_secretaria SERIAL PRIMARY KEY,
+	id_usuario INTEGER REFERENCES usuarios(id_usuario),
+	status BOOLEAN NOT NULL,
+	nome VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE lembretes(
+	id_lembrete SERIAL PRIMARY KEY,
+	id_secretaria INTEGER REFERENCES secretaria(id_secretaria),
+	destinatario_cargo cargo,
+	destinatario_id INTEGER NOT NULL,
+	status BOOLEAN NOT NULL,
+	titulo VARCHAR(50) NOT NULL,
+	mensagem VARCHAR(100) NOT NULL,
+	criacao TIMESTAMP NOT NULL,
+	visualizacao TIMESTAMP
+);
+
+CREATE TABLE alunos(
+	id_aluno SERIAL PRIMARY KEY,
+	id_usuario INTEGER REFERENCES usuarios(id_usuario),
+	status BOOLEAN NOT NULL,
+	ausente BOOLEAN NOT NULL,
+	nome VARCHAR(100) NOT NULL,
+	ra INTEGER UNIQUE NOT NULL
+);
+
+CREATE TABLE professores(
+	id_professor SERIAL PRIMARY KEY,
+	id_usuario INTEGER REFERENCES usuarios(id_usuario),
+	status BOOLEAN NOT NULL,
+	nome VARCHAR(100) NOT NULL
+);
+
+CREATE TYPE modalidade AS ENUM ('Online', 'Presencial');
+CREATE TYPE curso AS ENUM ('Analise_e_desenvolvimento_de_sistemas', 'Engenharia_de_Software', 'Psicologia', 'Ciências Biológicas');
+CREATE TYPE turno AS ENUM ('Matutino', 'Vespertino', 'Noturno');
+
+CREATE TABLE materias(
+	id_materia SERIAL PRIMARY KEY,
+	status BOOLEAN NOT NULL,
+	nome VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE turmas(
+	id_turma SERIAL PRIMARY KEY,
+	id_materia INTEGER REFERENCES materias(id_materia),
+	status BOOLEAN NOT NULL,
+	nome VARCHAR(50) NOT NULL,
+	ano INTEGER NOT NULL,
+	semestre INTEGER NOT NULL,
+	turno turno,
+	modalidade modalidade,
+	curso curso
+);
+
+CREATE TABLE turma_aluno(
+	id_turma INTEGER REFERENCES turmas(id_turma),
+	id_aluno INTEGER REFERENCES alunos(id_aluno)
+);
+
+CREATE TABLE turma_professor(
+	id_turma INTEGER REFERENCES turmas(id_turma),
+	id_professor INTEGER REFERENCES professores(id_professor)
+);
+
+
+CREATE TABLE chamadas(
+	id_chamada SERIAL PRIMARY KEY,
+	id_turma INTEGER REFERENCES turmas(id_turma),
+	id_professor INTEGER REFERENCES professores(id_professor),
+	status BOOLEAN NOT NULL,
+	abertura timestamp NOT NULL,
+	encerramento timestamp
+);
+
+CREATE TYPE tipo_presenca AS ENUM ('Manual', 'Regular');
+
+CREATE TABLE presencas(
+	id_presenca SERIAL PRIMARY KEY,
+	id_aluno INTEGER REFERENCES alunos(id_aluno),
+	id_chamada INTEGER REFERENCES chamadas(id_chamada),
+	status BOOLEAN NOT NULL,
+	horario timestamp,
+	tipo_presenca tipo_presenca,
+	cargo_manual VARCHAR(50),
+	id_manual INTEGER
+);
+
+CREATE TABLE cursos(
+	id_curso SERIAL PRIMARY KEY,
+	curso curso,
+	total_presente_curso INTEGER NOT NULL,
+	total_ausente_curso INTEGER NOT NULL,
+	total_ativo_curso INTEGER NOT NULL,
+	data_criado timestamp NOT NULL
+);
+
+CREATE TABLE configuracoes(
+	id_configuracao SERIAL PRIMARY KEY,
+	status BOOLEAN NOT NULL,
+	aluno_ausente INTEGER NOT NULL,
+	inicio_aula timestamp NOT NULL,
+	fim_aula timestamp NOT NULL
+);
+
+CREATE TABLE painel(
+	id_painel SERIAL PRIMARY KEY,
+	id_configuracao INTEGER REFERENCES configuracoes(id_configuracao),
+	id_secretaria INTEGER REFERENCES secretaria(id_secretaria),
+	status BOOLEAN NOT NULL,
+	data_criado timestamp NOT NULL,
+	total_ativo INTEGER NOT NULL,
+	total_presentes INTEGER NOT NULL,
+	total_ausentes INTEGER NOT NULL
+);
+
+
