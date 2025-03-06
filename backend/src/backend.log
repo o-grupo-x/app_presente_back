@@ -5,3 +5,1459 @@
 2025-03-05 22:15:15 INFO Serving on http://0.0.0.0:8000
 2025-03-05 23:01:36 INFO Aplicativo inicializado com sucesso.
 2025-03-05 23:01:36 INFO Serving on http://0.0.0.0:8000
+2025-03-05 23:41:57 INFO Aplicativo inicializado com sucesso.
+2025-03-05 23:41:57 INFO Serving on http://0.0.0.0:8000
+2025-03-05 23:59:12 INFO Aplicativo inicializado com sucesso.
+2025-03-05 23:59:12 INFO Serving on http://0.0.0.0:8000
+2025-03-06 00:05:03 INFO Aplicativo inicializado com sucesso.
+2025-03-06 00:05:03 INFO Serving on http://0.0.0.0:8000
+2025-03-06 00:16:19 ERROR Exception while serving /api/login
+Traceback (most recent call last):
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 145, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3288, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 452, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1268, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 716, in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\impl.py", line 168, in _do_get
+    with util.safe_reraise():
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 147, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\impl.py", line 166, in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 393, in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 678, in __init__
+    self.__connect()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 902, in __connect
+    with util.safe_reraise():
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 147, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 898, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\create.py", line 637, in connect
+    return dialect.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 616, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\psycopg\connection.py", line 117, in connect
+    raise last_ex.with_traceback(None)
+psycopg.OperationalError: connection failed: password authentication failed for user "postgres"
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\channel.py", line 430, in service
+    task.service()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 167, in service
+    self.execute()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 435, in execute
+    app_iter = self.channel.server.application(environ, start_response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\proxy_headers.py", line 64, in translate_proxy_headers
+    return app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2552, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2532, in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\backend\src\blueprints\UsuarioBlueprint.py", line 79, in login
+    user = UsuarioService.login(login=login, senha=senha)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\backend\src\service\UsuarioService.py", line 107, in login
+    user = Usuario.query.filter(Usuario.login == login).first()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2747, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2846, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2232, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2117, in _execute_internal
+    conn = self._connection_for_bind(bind)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1984, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in _connection_for_bind
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1111, in _connection_for_bind
+    conn = bind.connect()
+           ^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3264, in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 147, in __init__
+    Connection._handle_dbapi_exception_noconnection(
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2426, in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 145, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3288, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 452, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1268, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 716, in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\impl.py", line 168, in _do_get
+    with util.safe_reraise():
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 147, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\impl.py", line 166, in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 393, in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 678, in __init__
+    self.__connect()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 902, in __connect
+    with util.safe_reraise():
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 147, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 898, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\create.py", line 637, in connect
+    return dialect.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 616, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\psycopg\connection.py", line 117, in connect
+    raise last_ex.with_traceback(None)
+sqlalchemy.exc.OperationalError: (psycopg.OperationalError) connection failed: password authentication failed for user "postgres"
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-03-06 00:16:32 ERROR Exception while serving /api/login
+Traceback (most recent call last):
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 145, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3288, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 452, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1268, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 716, in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\impl.py", line 168, in _do_get
+    with util.safe_reraise():
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 147, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\impl.py", line 166, in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 393, in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 678, in __init__
+    self.__connect()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 902, in __connect
+    with util.safe_reraise():
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 147, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 898, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\create.py", line 637, in connect
+    return dialect.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 616, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\psycopg\connection.py", line 117, in connect
+    raise last_ex.with_traceback(None)
+psycopg.OperationalError: connection failed: password authentication failed for user "postgres"
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\channel.py", line 430, in service
+    task.service()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 167, in service
+    self.execute()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 435, in execute
+    app_iter = self.channel.server.application(environ, start_response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\proxy_headers.py", line 64, in translate_proxy_headers
+    return app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2552, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2532, in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\backend\src\blueprints\UsuarioBlueprint.py", line 79, in login
+    user = UsuarioService.login(login=login, senha=senha)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\backend\src\service\UsuarioService.py", line 107, in login
+    user = Usuario.query.filter(Usuario.login == login).first()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2747, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2846, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2232, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2117, in _execute_internal
+    conn = self._connection_for_bind(bind)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1984, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in _connection_for_bind
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1111, in _connection_for_bind
+    conn = bind.connect()
+           ^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3264, in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 147, in __init__
+    Connection._handle_dbapi_exception_noconnection(
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2426, in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 145, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3288, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 452, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1268, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 716, in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\impl.py", line 168, in _do_get
+    with util.safe_reraise():
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 147, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\impl.py", line 166, in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 393, in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 678, in __init__
+    self.__connect()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 902, in __connect
+    with util.safe_reraise():
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 147, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 898, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\create.py", line 637, in connect
+    return dialect.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 616, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\psycopg\connection.py", line 117, in connect
+    raise last_ex.with_traceback(None)
+sqlalchemy.exc.OperationalError: (psycopg.OperationalError) connection failed: password authentication failed for user "postgres"
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-03-06 00:18:09 INFO Aplicativo inicializado com sucesso.
+2025-03-06 00:18:09 INFO Serving on http://0.0.0.0:8000
+2025-03-06 00:18:10 ERROR Exception while serving /api/login
+Traceback (most recent call last):
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 145, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3288, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 452, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1268, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 716, in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\impl.py", line 168, in _do_get
+    with util.safe_reraise():
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 147, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\impl.py", line 166, in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 393, in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 678, in __init__
+    self.__connect()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 902, in __connect
+    with util.safe_reraise():
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 147, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 898, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\create.py", line 637, in connect
+    return dialect.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 616, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\psycopg\connection.py", line 117, in connect
+    raise last_ex.with_traceback(None)
+psycopg.OperationalError: connection failed: password authentication failed for user "postgres"
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\channel.py", line 430, in service
+    task.service()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 167, in service
+    self.execute()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 435, in execute
+    app_iter = self.channel.server.application(environ, start_response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\proxy_headers.py", line 64, in translate_proxy_headers
+    return app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2552, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2532, in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\backend\src\blueprints\UsuarioBlueprint.py", line 79, in login
+    user = UsuarioService.login(login=login, senha=senha)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\backend\src\service\UsuarioService.py", line 107, in login
+    user = Usuario.query.filter(Usuario.login == login).first()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2747, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2846, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2232, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2117, in _execute_internal
+    conn = self._connection_for_bind(bind)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1984, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in _connection_for_bind
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1111, in _connection_for_bind
+    conn = bind.connect()
+           ^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3264, in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 147, in __init__
+    Connection._handle_dbapi_exception_noconnection(
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2426, in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 145, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3288, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 452, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1268, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 716, in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\impl.py", line 168, in _do_get
+    with util.safe_reraise():
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 147, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\impl.py", line 166, in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 393, in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 678, in __init__
+    self.__connect()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 902, in __connect
+    with util.safe_reraise():
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 147, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 898, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\create.py", line 637, in connect
+    return dialect.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 616, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\psycopg\connection.py", line 117, in connect
+    raise last_ex.with_traceback(None)
+sqlalchemy.exc.OperationalError: (psycopg.OperationalError) connection failed: password authentication failed for user "postgres"
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-03-06 00:19:24 INFO Aplicativo inicializado com sucesso.
+2025-03-06 00:19:24 INFO Serving on http://0.0.0.0:8000
+2025-03-06 00:19:29 INFO id_usuario <RedisSession {'_user_id': 1, '_fresh': True, '_id': 'e32983865d929a635084d0809057b881389066afe2b96c94c6e3c7cd7a892ad6014fd18f813fd1ba122aa594d32f9b8b0fe1cf47450bc042b763b391e855b059', 'user_id': 1}>
+2025-03-06 00:19:29 INFO Usuário teste logado com sucesso.
+2025-03-06 00:20:07 ERROR Exception while serving /api/login
+Traceback (most recent call last):
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\connection.py", line 357, in connect
+    sock = self.retry.call_with_retry(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\retry.py", line 67, in call_with_retry
+    raise error
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\retry.py", line 62, in call_with_retry
+    return do()
+           ^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\connection.py", line 358, in <lambda>
+    lambda: self._connect(), lambda error: self.disconnect(error)
+            ^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\connection.py", line 730, in _connect
+    raise err
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\connection.py", line 718, in _connect
+    sock.connect(socket_address)
+TimeoutError: [WinError 10060] Uma tentativa de conexão falhou porque o componente conectado não respondeu
+corretamente após um período de tempo ou a conexão estabelecida falhou
+porque o host conectado não respondeu
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\channel.py", line 430, in service
+    task.service()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 167, in service
+    self.execute()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 435, in execute
+    app_iter = self.channel.server.application(environ, start_response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\proxy_headers.py", line 64, in translate_proxy_headers
+    return app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2552, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2532, in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1826, in full_dispatch_request
+    return self.finalize_request(rv)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1847, in finalize_request
+    response = self.process_response(response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2344, in process_response
+    self.session_interface.save_session(self, ctx.session, response)
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask_session\base.py", line 305, in save_session
+    self._upsert_session(app.permanent_session_lifetime, session, store_id)
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask_session\redis\redis.py", line 81, in _upsert_session
+    self.client.set(
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\commands\core.py", line 2335, in set
+    return self.execute_command("SET", *pieces, **options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\client.py", line 559, in execute_command
+    return self._execute_command(*args, **options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\client.py", line 565, in _execute_command
+    conn = self.connection or pool.get_connection(command_name, **options)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\connection.py", line 1422, in get_connection
+    connection.connect()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\connection.py", line 361, in connect
+    raise TimeoutError("Timeout connecting to server")
+redis.exceptions.TimeoutError: Timeout connecting to server
+2025-03-06 00:20:45 INFO id_usuario <RedisSession {'_user_id': 1, '_fresh': True, '_id': 'e32983865d929a635084d0809057b881389066afe2b96c94c6e3c7cd7a892ad6014fd18f813fd1ba122aa594d32f9b8b0fe1cf47450bc042b763b391e855b059', 'user_id': 1}>
+2025-03-06 00:20:45 INFO Usuário teste logado com sucesso.
+2025-03-06 00:21:06 ERROR Exception while serving /api/login
+Traceback (most recent call last):
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\connection.py", line 357, in connect
+    sock = self.retry.call_with_retry(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\retry.py", line 67, in call_with_retry
+    raise error
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\retry.py", line 62, in call_with_retry
+    return do()
+           ^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\connection.py", line 358, in <lambda>
+    lambda: self._connect(), lambda error: self.disconnect(error)
+            ^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\connection.py", line 730, in _connect
+    raise err
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\connection.py", line 718, in _connect
+    sock.connect(socket_address)
+TimeoutError: [WinError 10060] Uma tentativa de conexão falhou porque o componente conectado não respondeu
+corretamente após um período de tempo ou a conexão estabelecida falhou
+porque o host conectado não respondeu
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\channel.py", line 430, in service
+    task.service()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 167, in service
+    self.execute()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 435, in execute
+    app_iter = self.channel.server.application(environ, start_response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\proxy_headers.py", line 64, in translate_proxy_headers
+    return app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2552, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2532, in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1826, in full_dispatch_request
+    return self.finalize_request(rv)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1847, in finalize_request
+    response = self.process_response(response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2344, in process_response
+    self.session_interface.save_session(self, ctx.session, response)
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask_session\base.py", line 305, in save_session
+    self._upsert_session(app.permanent_session_lifetime, session, store_id)
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask_session\redis\redis.py", line 81, in _upsert_session
+    self.client.set(
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\commands\core.py", line 2335, in set
+    return self.execute_command("SET", *pieces, **options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\client.py", line 559, in execute_command
+    return self._execute_command(*args, **options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\client.py", line 565, in _execute_command
+    conn = self.connection or pool.get_connection(command_name, **options)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\connection.py", line 1422, in get_connection
+    connection.connect()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\connection.py", line 361, in connect
+    raise TimeoutError("Timeout connecting to server")
+redis.exceptions.TimeoutError: Timeout connecting to server
+2025-03-06 00:21:45 INFO Aplicativo inicializado com sucesso.
+2025-03-06 00:21:45 INFO Serving on http://0.0.0.0:8000
+2025-03-06 00:27:48 INFO Aplicativo inicializado com sucesso.
+2025-03-06 00:27:48 INFO Serving on http://0.0.0.0:8000
+2025-03-06 00:31:37 INFO Aplicativo inicializado com sucesso.
+2025-03-06 00:31:37 INFO Serving on http://0.0.0.0:8080
+2025-03-06 00:31:59 INFO Aplicativo inicializado com sucesso.
+2025-03-06 00:31:59 INFO Serving on http://0.0.0.0:8000
+2025-03-06 00:32:23 INFO id_usuario <RedisSession {'_user_id': 1, '_fresh': True, '_id': 'e32983865d929a635084d0809057b881389066afe2b96c94c6e3c7cd7a892ad6014fd18f813fd1ba122aa594d32f9b8b0fe1cf47450bc042b763b391e855b059', 'user_id': 1}>
+2025-03-06 00:32:23 INFO Usuário teste logado com sucesso.
+2025-03-06 00:32:44 ERROR Exception while serving /api/login
+Traceback (most recent call last):
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\connection.py", line 357, in connect
+    sock = self.retry.call_with_retry(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\retry.py", line 67, in call_with_retry
+    raise error
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\retry.py", line 62, in call_with_retry
+    return do()
+           ^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\connection.py", line 358, in <lambda>
+    lambda: self._connect(), lambda error: self.disconnect(error)
+            ^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\connection.py", line 730, in _connect
+    raise err
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\connection.py", line 718, in _connect
+    sock.connect(socket_address)
+TimeoutError: [WinError 10060] Uma tentativa de conexão falhou porque o componente conectado não respondeu
+corretamente após um período de tempo ou a conexão estabelecida falhou
+porque o host conectado não respondeu
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\channel.py", line 430, in service
+    task.service()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 167, in service
+    self.execute()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 435, in execute
+    app_iter = self.channel.server.application(environ, start_response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\proxy_headers.py", line 64, in translate_proxy_headers
+    return app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2552, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2532, in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1826, in full_dispatch_request
+    return self.finalize_request(rv)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1847, in finalize_request
+    response = self.process_response(response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2344, in process_response
+    self.session_interface.save_session(self, ctx.session, response)
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask_session\base.py", line 305, in save_session
+    self._upsert_session(app.permanent_session_lifetime, session, store_id)
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask_session\redis\redis.py", line 81, in _upsert_session
+    self.client.set(
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\commands\core.py", line 2335, in set
+    return self.execute_command("SET", *pieces, **options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\client.py", line 559, in execute_command
+    return self._execute_command(*args, **options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\client.py", line 565, in _execute_command
+    conn = self.connection or pool.get_connection(command_name, **options)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\connection.py", line 1422, in get_connection
+    connection.connect()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\connection.py", line 361, in connect
+    raise TimeoutError("Timeout connecting to server")
+redis.exceptions.TimeoutError: Timeout connecting to server
+2025-03-06 00:33:01 INFO Aplicativo inicializado com sucesso.
+2025-03-06 00:33:01 INFO Serving on http://0.0.0.0:8000
+2025-03-06 00:33:29 INFO Aplicativo inicializado com sucesso.
+2025-03-06 00:33:42 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.18.66:8000
+2025-03-06 00:33:42 INFO [33mPress CTRL+C to quit[0m
+2025-03-06 00:33:42 INFO  * Restarting with stat
+2025-03-06 00:33:45 INFO Aplicativo inicializado com sucesso.
+2025-03-06 00:33:45 WARNING  * Debugger is active!
+2025-03-06 00:33:45 INFO  * Debugger PIN: 140-584-203
+2025-03-06 00:34:20 INFO 127.0.0.1 - - [06/Mar/2025 00:34:20] "[35m[1mPOST /api/login HTTP/1.1[0m" 500 -
+2025-03-06 00:34:56 INFO Aplicativo inicializado com sucesso.
+2025-03-06 00:35:10 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.18.66:8000
+2025-03-06 00:35:10 INFO [33mPress CTRL+C to quit[0m
+2025-03-06 00:35:10 INFO  * Restarting with stat
+2025-03-06 00:35:13 INFO Aplicativo inicializado com sucesso.
+2025-03-06 00:35:13 WARNING  * Debugger is active!
+2025-03-06 00:35:13 INFO  * Debugger PIN: 140-584-203
+2025-03-06 00:35:14 INFO id_usuario <RedisSession {'_user_id': 1, '_fresh': True, '_id': 'e32983865d929a635084d0809057b881389066afe2b96c94c6e3c7cd7a892ad6014fd18f813fd1ba122aa594d32f9b8b0fe1cf47450bc042b763b391e855b059', 'user_id': 1}>
+2025-03-06 00:35:14 INFO Usuário teste logado com sucesso.
+2025-03-06 00:35:36 INFO 127.0.0.1 - - [06/Mar/2025 00:35:36] "[35m[1mPOST /api/login HTTP/1.1[0m" 500 -
+2025-03-06 01:35:34 INFO Aplicativo inicializado com sucesso.
+2025-03-06 01:35:48 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.18.66:8000
+2025-03-06 01:35:48 INFO [33mPress CTRL+C to quit[0m
+2025-03-06 01:35:48 INFO  * Restarting with stat
+2025-03-06 01:35:52 INFO Aplicativo inicializado com sucesso.
+2025-03-06 01:35:52 WARNING  * Debugger is active!
+2025-03-06 01:35:52 INFO  * Debugger PIN: 140-584-203
+2025-03-06 01:35:54 INFO id_usuario <RedisSession {'_user_id': 1, '_fresh': True, '_id': 'e32983865d929a635084d0809057b881389066afe2b96c94c6e3c7cd7a892ad6014fd18f813fd1ba122aa594d32f9b8b0fe1cf47450bc042b763b391e855b059', 'user_id': 1}>
+2025-03-06 01:35:54 INFO Usuário teste logado com sucesso.
+2025-03-06 01:36:15 INFO 127.0.0.1 - - [06/Mar/2025 01:36:15] "[35m[1mPOST /api/login HTTP/1.1[0m" 500 -
+2025-03-06 01:37:21 INFO id_usuario <RedisSession {'_user_id': 1, '_fresh': True, '_id': 'e32983865d929a635084d0809057b881389066afe2b96c94c6e3c7cd7a892ad6014fd18f813fd1ba122aa594d32f9b8b0fe1cf47450bc042b763b391e855b059', 'user_id': 1}>
+2025-03-06 01:37:21 INFO Usuário teste logado com sucesso.
+2025-03-06 01:37:43 INFO 127.0.0.1 - - [06/Mar/2025 01:37:43] "[35m[1mPOST /api/login HTTP/1.1[0m" 500 -
+2025-03-06 02:10:23 INFO id_usuario <RedisSession {'_user_id': 1, '_fresh': True, '_id': 'e32983865d929a635084d0809057b881389066afe2b96c94c6e3c7cd7a892ad6014fd18f813fd1ba122aa594d32f9b8b0fe1cf47450bc042b763b391e855b059', 'user_id': 1}>
+2025-03-06 02:10:23 INFO Usuário teste logado com sucesso.
+2025-03-06 02:10:44 INFO 127.0.0.1 - - [06/Mar/2025 02:10:44] "[35m[1mPOST /api/login HTTP/1.1[0m" 500 -
+2025-03-06 02:13:27 INFO id_usuario <RedisSession {'_user_id': 1, '_fresh': True, '_id': 'e32983865d929a635084d0809057b881389066afe2b96c94c6e3c7cd7a892ad6014fd18f813fd1ba122aa594d32f9b8b0fe1cf47450bc042b763b391e855b059', 'user_id': 1}>
+2025-03-06 02:13:27 INFO Usuário teste logado com sucesso.
+2025-03-06 02:13:28 INFO 127.0.0.1 - - [06/Mar/2025 02:13:28] "POST /api/login HTTP/1.1" 200 -
+2025-03-06 02:15:54 INFO Aplicativo inicializado com sucesso.
+2025-03-06 02:16:07 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.18.66:8000
+2025-03-06 02:16:07 INFO [33mPress CTRL+C to quit[0m
+2025-03-06 02:16:07 INFO  * Restarting with stat
+2025-03-06 02:16:10 INFO Aplicativo inicializado com sucesso.
+2025-03-06 02:16:10 WARNING  * Debugger is active!
+2025-03-06 02:16:10 INFO  * Debugger PIN: 140-584-203
+2025-03-06 02:36:16 INFO id_usuario <RedisSession {'_user_id': 1, '_fresh': True, '_id': 'e32983865d929a635084d0809057b881389066afe2b96c94c6e3c7cd7a892ad6014fd18f813fd1ba122aa594d32f9b8b0fe1cf47450bc042b763b391e855b059', 'user_id': 1}>
+2025-03-06 02:36:17 INFO Usuário teste logado com sucesso.
+2025-03-06 02:36:17 INFO 127.0.0.1 - - [06/Mar/2025 02:36:17] "POST /api/login HTTP/1.1" 200 -
+2025-03-06 02:41:23 INFO 127.0.0.1 - - [06/Mar/2025 02:41:23] "[35m[1mPOST /api/login HTTP/1.1[0m" 500 -
+2025-03-06 02:41:25 INFO id_usuario <RedisSession {'_user_id': 1, '_fresh': True, '_id': 'e32983865d929a635084d0809057b881389066afe2b96c94c6e3c7cd7a892ad6014fd18f813fd1ba122aa594d32f9b8b0fe1cf47450bc042b763b391e855b059', 'user_id': 1}>
+2025-03-06 02:41:25 INFO Usuário teste logado com sucesso.
+2025-03-06 02:41:25 INFO 127.0.0.1 - - [06/Mar/2025 02:41:25] "POST /api/login HTTP/1.1" 200 -
+2025-03-06 02:43:19 INFO id_usuario <RedisSession {'_user_id': 1, '_fresh': True, '_id': 'e32983865d929a635084d0809057b881389066afe2b96c94c6e3c7cd7a892ad6014fd18f813fd1ba122aa594d32f9b8b0fe1cf47450bc042b763b391e855b059', 'user_id': 1}>
+2025-03-06 02:43:19 INFO Usuário teste logado com sucesso.
+2025-03-06 02:43:19 INFO 127.0.0.1 - - [06/Mar/2025 02:43:19] "POST /api/login HTTP/1.1" 200 -
+2025-03-06 02:52:42 INFO Aplicativo inicializado com sucesso.
+2025-03-06 02:52:55 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.18.66:8000
+2025-03-06 02:52:55 INFO [33mPress CTRL+C to quit[0m
+2025-03-06 02:52:56 INFO  * Restarting with stat
+2025-03-06 02:52:59 INFO Aplicativo inicializado com sucesso.
+2025-03-06 02:53:00 WARNING  * Debugger is active!
+2025-03-06 02:53:00 INFO  * Debugger PIN: 140-584-203
+2025-03-06 02:53:02 INFO id_usuario <RedisSession {'_user_id': 1, '_fresh': True, '_id': 'e32983865d929a635084d0809057b881389066afe2b96c94c6e3c7cd7a892ad6014fd18f813fd1ba122aa594d32f9b8b0fe1cf47450bc042b763b391e855b059', 'user_id': 1}>
+2025-03-06 02:53:02 INFO Usuário teste logado com sucesso.
+2025-03-06 02:53:02 INFO 127.0.0.1 - - [06/Mar/2025 02:53:02] "POST /api/login HTTP/1.1" 200 -
+2025-03-06 03:02:25 INFO  * Detected change in 'F:\\Mensal\\app_presente_back\\backend\\src\\run.py', reloading
+2025-03-06 03:02:26 INFO  * Restarting with stat
+2025-03-06 03:02:41 INFO Aplicativo inicializado com sucesso.
+2025-03-06 03:02:41 WARNING  * Debugger is active!
+2025-03-06 03:02:41 INFO  * Debugger PIN: 140-584-203
+2025-03-06 03:02:56 INFO  * Detected change in 'F:\\Mensal\\app_presente_back\\backend\\src\\run.py', reloading
+2025-03-06 03:02:56 INFO  * Restarting with stat
+2025-03-06 03:03:00 INFO Aplicativo inicializado com sucesso.
+2025-03-06 03:03:00 WARNING  * Debugger is active!
+2025-03-06 03:03:00 INFO  * Debugger PIN: 140-584-203
+2025-03-06 03:03:50 INFO  * Detected change in 'F:\\Mensal\\app_presente_back\\backend\\src\\run.py', reloading
+2025-03-06 03:03:50 INFO  * Restarting with stat
+2025-03-06 03:03:54 INFO Aplicativo inicializado com sucesso.
+2025-03-06 03:03:54 INFO Serving on http://0.0.0.0:8000
+2025-03-06 12:03:27 INFO Aplicativo inicializado com sucesso.
+2025-03-06 12:03:28 INFO Serving on http://0.0.0.0:8000
+2025-03-06 12:27:35 INFO Aplicativo inicializado com sucesso.
+2025-03-06 12:27:35 INFO Serving on http://0.0.0.0:8080
+2025-03-06 12:27:40 ERROR Erro na tentativa de realizar login: Login inválido!!
+2025-03-06 12:27:40 ERROR Erro na tentativa de realizar login: Login inválido!!
+2025-03-06 12:27:53 INFO id_usuario <RedisSession {'_user_id': 1, '_fresh': True, '_id': '2d4bfa44bf346518c0dd3eea25f2e1fccd78cb7f74e3d5003e2800cfc6300516fac64e269254541c7108c74449d50be1f8b3afb26119ac0301a61d64bcd29c66', 'user_id': 1}>
+2025-03-06 12:27:53 INFO Usuário teste logado com sucesso.
+2025-03-06 12:28:11 INFO id_usuario <RedisSession {'_user_id': 1, '_fresh': True, '_id': '2d4bfa44bf346518c0dd3eea25f2e1fccd78cb7f74e3d5003e2800cfc6300516fac64e269254541c7108c74449d50be1f8b3afb26119ac0301a61d64bcd29c66', 'user_id': 1}>
+2025-03-06 12:28:11 INFO Usuário teste logado com sucesso.
+2025-03-06 12:28:27 INFO id_usuario <RedisSession {'_user_id': 1, '_fresh': True, '_id': '2d4bfa44bf346518c0dd3eea25f2e1fccd78cb7f74e3d5003e2800cfc6300516fac64e269254541c7108c74449d50be1f8b3afb26119ac0301a61d64bcd29c66', 'user_id': 1}>
+2025-03-06 12:28:27 INFO Usuário teste logado com sucesso.
+2025-03-06 12:30:52 INFO id_usuario <RedisSession {'_user_id': 1, '_fresh': True, '_id': 'e32983865d929a635084d0809057b881389066afe2b96c94c6e3c7cd7a892ad6014fd18f813fd1ba122aa594d32f9b8b0fe1cf47450bc042b763b391e855b059', 'user_id': 1}>
+2025-03-06 12:30:52 INFO Usuário teste logado com sucesso.
+2025-03-06 12:33:07 INFO id_usuario <RedisSession {'_user_id': 1, '_fresh': True, '_id': '2d4bfa44bf346518c0dd3eea25f2e1fccd78cb7f74e3d5003e2800cfc6300516fac64e269254541c7108c74449d50be1f8b3afb26119ac0301a61d64bcd29c66', 'user_id': 1}>
+2025-03-06 12:33:07 INFO Usuário teste logado com sucesso.
+2025-03-06 12:36:25 ERROR Erro na tentativa de realizar login: Login inválido!!
+2025-03-06 12:36:25 ERROR Erro na tentativa de realizar login: Login inválido!!
+2025-03-06 12:36:37 INFO id_usuario <RedisSession {'_user_id': 1, '_fresh': True, '_id': '2d4bfa44bf346518c0dd3eea25f2e1fccd78cb7f74e3d5003e2800cfc6300516fac64e269254541c7108c74449d50be1f8b3afb26119ac0301a61d64bcd29c66', 'user_id': 1}>
+2025-03-06 12:36:37 INFO Usuário teste logado com sucesso.
+2025-03-06 12:37:27 INFO Rota /api/turma/listAll acessada.
+2025-03-06 12:37:27 INFO Rota /api/materia/listAll acessada.
+2025-03-06 12:38:00 INFO Rota /api/turma/listAll acessada.
+2025-03-06 12:38:00 WARNING Task queue depth is 1
+2025-03-06 12:38:00 INFO Rota /api/aluno/AusentesPresentes acessada.
+2025-03-06 12:38:00 ERROR Exception while serving /api/aluno/AusentesPresentes
+Traceback (most recent call last):
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\channel.py", line 430, in service
+    task.service()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 167, in service
+    self.execute()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 435, in execute
+    app_iter = self.channel.server.application(environ, start_response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\proxy_headers.py", line 64, in translate_proxy_headers
+    return app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2552, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2532, in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1826, in full_dispatch_request
+    return self.finalize_request(rv)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1845, in finalize_request
+    response = self.make_response(rv)
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2174, in make_response
+    raise TypeError(
+TypeError: The view function did not return a valid response. The return type must be a string, dict, list, tuple with headers or status, Response instance, or WSGI callable, but it was a AssertionError.
+2025-03-06 12:38:00 INFO Rota /api/aluno/mediaAusente acessada.
+2025-03-06 12:38:00 INFO Rota /api/aluno/mediaAtivo acessada.
+2025-03-06 12:38:00 ERROR Exception while serving /api/aluno/mediaAusente
+Traceback (most recent call last):
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\channel.py", line 430, in service
+    task.service()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 167, in service
+    self.execute()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 435, in execute
+    app_iter = self.channel.server.application(environ, start_response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\proxy_headers.py", line 64, in translate_proxy_headers
+    return app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2552, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2532, in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1826, in full_dispatch_request
+    return self.finalize_request(rv)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1845, in finalize_request
+    response = self.make_response(rv)
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2174, in make_response
+    raise TypeError(
+TypeError: The view function did not return a valid response. The return type must be a string, dict, list, tuple with headers or status, Response instance, or WSGI callable, but it was a AssertionError.
+2025-03-06 12:38:00 ERROR Exception while serving /api/aluno/mediaAtivo
+Traceback (most recent call last):
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\channel.py", line 430, in service
+    task.service()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 167, in service
+    self.execute()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 435, in execute
+    app_iter = self.channel.server.application(environ, start_response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\proxy_headers.py", line 64, in translate_proxy_headers
+    return app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2552, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2532, in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1826, in full_dispatch_request
+    return self.finalize_request(rv)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1845, in finalize_request
+    response = self.make_response(rv)
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2174, in make_response
+    raise TypeError(
+TypeError: The view function did not return a valid response. The return type must be a string, dict, list, tuple with headers or status, Response instance, or WSGI callable, but it was a AssertionError.
+2025-03-06 12:38:00 INFO Rota /api/aluno/AusentesPresentes acessada.
+2025-03-06 12:38:00 ERROR Exception while serving /api/aluno/AusentesPresentes
+Traceback (most recent call last):
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\channel.py", line 430, in service
+    task.service()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 167, in service
+    self.execute()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 435, in execute
+    app_iter = self.channel.server.application(environ, start_response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\proxy_headers.py", line 64, in translate_proxy_headers
+    return app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2552, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2532, in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1826, in full_dispatch_request
+    return self.finalize_request(rv)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1845, in finalize_request
+    response = self.make_response(rv)
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2174, in make_response
+    raise TypeError(
+TypeError: The view function did not return a valid response. The return type must be a string, dict, list, tuple with headers or status, Response instance, or WSGI callable, but it was a AssertionError.
+2025-03-06 12:38:25 ERROR Erro na tentativa de realizar login: Login inválido!!
+2025-03-06 12:38:25 ERROR Erro na tentativa de realizar login: Login inválido!!
+2025-03-06 12:41:09 INFO Aplicativo inicializado com sucesso.
+2025-03-06 12:41:09 INFO Serving on http://0.0.0.0:8080
+2025-03-06 12:51:04 INFO id_usuario <RedisSession {'_user_id': 1, '_fresh': True, '_id': '2d4bfa44bf346518c0dd3eea25f2e1fccd78cb7f74e3d5003e2800cfc6300516fac64e269254541c7108c74449d50be1f8b3afb26119ac0301a61d64bcd29c66', 'user_id': 1}>
+2025-03-06 12:51:04 INFO Usuário teste logado com sucesso.
+2025-03-06 12:51:38 INFO id_usuario <RedisSession {'_user_id': 1, '_fresh': True, '_id': '2d4bfa44bf346518c0dd3eea25f2e1fccd78cb7f74e3d5003e2800cfc6300516fac64e269254541c7108c74449d50be1f8b3afb26119ac0301a61d64bcd29c66', 'user_id': 1}>
+2025-03-06 12:51:38 INFO Usuário teste logado com sucesso.
+2025-03-06 12:55:09 INFO id_usuario <RedisSession {'_user_id': 1, '_fresh': True, '_id': '2d4bfa44bf346518c0dd3eea25f2e1fccd78cb7f74e3d5003e2800cfc6300516fac64e269254541c7108c74449d50be1f8b3afb26119ac0301a61d64bcd29c66', 'user_id': 1}>
+2025-03-06 12:55:09 INFO Usuário teste logado com sucesso.
+2025-03-06 12:56:27 ERROR Erro na tentativa de realizar login: Login inválido!!
+2025-03-06 12:56:27 ERROR Erro na tentativa de realizar login: Login inválido!!
+2025-03-06 12:56:41 ERROR Erro na tentativa de realizar login: Login ou senha incorretos!
+2025-03-06 12:56:50 INFO id_usuario <RedisSession {'_user_id': 1, '_fresh': True, '_id': '2d4bfa44bf346518c0dd3eea25f2e1fccd78cb7f74e3d5003e2800cfc6300516fac64e269254541c7108c74449d50be1f8b3afb26119ac0301a61d64bcd29c66', 'user_id': 1}>
+2025-03-06 12:56:50 INFO Usuário teste logado com sucesso.
+2025-03-06 12:58:17 INFO id_usuario <RedisSession {'_user_id': 1, '_fresh': True, '_id': '2d4bfa44bf346518c0dd3eea25f2e1fccd78cb7f74e3d5003e2800cfc6300516fac64e269254541c7108c74449d50be1f8b3afb26119ac0301a61d64bcd29c66', 'user_id': 1}>
+2025-03-06 12:58:17 INFO Usuário teste logado com sucesso.
+2025-03-06 13:00:03 INFO Aplicativo inicializado com sucesso.
+2025-03-06 13:00:03 INFO Serving on http://0.0.0.0:8000
+2025-03-06 13:00:06 WARNING Task queue depth is 1
+2025-03-06 13:00:06 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:00:06 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:00:06 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:00:06 INFO id_usuario <RedisSession {'_user_id': 1, '_fresh': True, '_id': 'a4bd6966cb7a1dd504dadf41eafe79e56841ca1a87ff41e6bd9248c1b5342f4621b6df5c074fb69ad7c7a982176b2619a26629c57c72a54b742615a605a33fe5', 'user_id': 1}>
+2025-03-06 13:00:06 INFO Usuário teste logado com sucesso.
+2025-03-06 13:00:07 WARNING Task queue depth is 1
+2025-03-06 13:00:08 INFO id_usuario <RedisSession {'_user_id': 1, '_fresh': True, '_id': 'a4bd6966cb7a1dd504dadf41eafe79e56841ca1a87ff41e6bd9248c1b5342f4621b6df5c074fb69ad7c7a982176b2619a26629c57c72a54b742615a605a33fe5', 'user_id': 1}>
+2025-03-06 13:00:08 INFO Usuário teste logado com sucesso.
+2025-03-06 13:00:08 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:00:08 WARNING Task queue depth is 1
+2025-03-06 13:00:13 WARNING Task queue depth is 2
+2025-03-06 13:00:38 WARNING Task queue depth is 2
+2025-03-06 13:00:38 WARNING Task queue depth is 2
+2025-03-06 13:00:38 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:00:38 WARNING Task queue depth is 1
+2025-03-06 13:00:38 WARNING Task queue depth is 1
+2025-03-06 13:00:38 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:00:38 WARNING Task queue depth is 1
+2025-03-06 13:00:38 WARNING Task queue depth is 2
+2025-03-06 13:00:38 WARNING Task queue depth is 2
+2025-03-06 13:00:38 INFO Rota /api/aluno/AusentesPresentes acessada.
+2025-03-06 13:00:38 INFO Rota /api/turma/listAll acessada.
+2025-03-06 13:00:38 WARNING Task queue depth is 1
+2025-03-06 13:00:38 ERROR Exception while serving /api/aluno/AusentesPresentes
+Traceback (most recent call last):
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\channel.py", line 430, in service
+    task.service()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 167, in service
+    self.execute()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 435, in execute
+    app_iter = self.channel.server.application(environ, start_response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\proxy_headers.py", line 64, in translate_proxy_headers
+    return app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2552, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2532, in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1826, in full_dispatch_request
+    return self.finalize_request(rv)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1845, in finalize_request
+    response = self.make_response(rv)
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2174, in make_response
+    raise TypeError(
+TypeError: The view function did not return a valid response. The return type must be a string, dict, list, tuple with headers or status, Response instance, or WSGI callable, but it was a AssertionError.
+2025-03-06 13:00:38 WARNING Task queue depth is 2
+2025-03-06 13:00:39 INFO Rota /api/aluno/AusentesPresentes acessada.
+2025-03-06 13:00:39 WARNING Task queue depth is 2
+2025-03-06 13:00:39 ERROR Exception while serving /api/aluno/AusentesPresentes
+Traceback (most recent call last):
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\channel.py", line 430, in service
+    task.service()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 167, in service
+    self.execute()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 435, in execute
+    app_iter = self.channel.server.application(environ, start_response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\proxy_headers.py", line 64, in translate_proxy_headers
+    return app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2552, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2532, in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1826, in full_dispatch_request
+    return self.finalize_request(rv)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1845, in finalize_request
+    response = self.make_response(rv)
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2174, in make_response
+    raise TypeError(
+TypeError: The view function did not return a valid response. The return type must be a string, dict, list, tuple with headers or status, Response instance, or WSGI callable, but it was a AssertionError.
+2025-03-06 13:00:39 INFO Rota /api/aluno/mediaAtivo acessada.
+2025-03-06 13:00:39 WARNING Task queue depth is 2
+2025-03-06 13:00:39 ERROR Exception while serving /api/aluno/mediaAtivo
+Traceback (most recent call last):
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\channel.py", line 430, in service
+    task.service()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 167, in service
+    self.execute()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 435, in execute
+    app_iter = self.channel.server.application(environ, start_response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\proxy_headers.py", line 64, in translate_proxy_headers
+    return app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2552, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2532, in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1826, in full_dispatch_request
+    return self.finalize_request(rv)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1845, in finalize_request
+    response = self.make_response(rv)
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2174, in make_response
+    raise TypeError(
+TypeError: The view function did not return a valid response. The return type must be a string, dict, list, tuple with headers or status, Response instance, or WSGI callable, but it was a AssertionError.
+2025-03-06 13:00:39 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:00:39 WARNING Task queue depth is 2
+2025-03-06 13:00:39 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:00:39 WARNING Task queue depth is 2
+2025-03-06 13:01:00 WARNING Task queue depth is 2
+2025-03-06 13:01:00 WARNING Task queue depth is 2
+2025-03-06 13:01:00 WARNING Task queue depth is 1
+2025-03-06 13:01:00 INFO Rota /api/turma/listAll acessada.
+2025-03-06 13:01:00 WARNING Task queue depth is 1
+2025-03-06 13:01:00 INFO Rota /api/aluno/AusentesPresentes acessada.
+2025-03-06 13:01:00 WARNING Task queue depth is 2
+2025-03-06 13:01:00 ERROR Exception while serving /api/aluno/AusentesPresentes
+Traceback (most recent call last):
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\channel.py", line 430, in service
+    task.service()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 167, in service
+    self.execute()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 435, in execute
+    app_iter = self.channel.server.application(environ, start_response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\proxy_headers.py", line 64, in translate_proxy_headers
+    return app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2552, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2532, in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1826, in full_dispatch_request
+    return self.finalize_request(rv)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1845, in finalize_request
+    response = self.make_response(rv)
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2174, in make_response
+    raise TypeError(
+TypeError: The view function did not return a valid response. The return type must be a string, dict, list, tuple with headers or status, Response instance, or WSGI callable, but it was a AssertionError.
+2025-03-06 13:01:00 INFO Rota /api/aluno/AusentesPresentes acessada.
+2025-03-06 13:01:00 ERROR Exception while serving /api/aluno/AusentesPresentes
+Traceback (most recent call last):
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\channel.py", line 430, in service
+    task.service()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 167, in service
+    self.execute()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 435, in execute
+    app_iter = self.channel.server.application(environ, start_response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\proxy_headers.py", line 64, in translate_proxy_headers
+    return app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2552, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2532, in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1826, in full_dispatch_request
+    return self.finalize_request(rv)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1845, in finalize_request
+    response = self.make_response(rv)
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2174, in make_response
+    raise TypeError(
+TypeError: The view function did not return a valid response. The return type must be a string, dict, list, tuple with headers or status, Response instance, or WSGI callable, but it was a AssertionError.
+2025-03-06 13:01:00 INFO Rota /api/aluno/mediaAtivo acessada.
+2025-03-06 13:01:00 ERROR Exception while serving /api/aluno/mediaAtivo
+Traceback (most recent call last):
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\channel.py", line 430, in service
+    task.service()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 167, in service
+    self.execute()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 435, in execute
+    app_iter = self.channel.server.application(environ, start_response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\proxy_headers.py", line 64, in translate_proxy_headers
+    return app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2552, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2532, in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1826, in full_dispatch_request
+    return self.finalize_request(rv)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1845, in finalize_request
+    response = self.make_response(rv)
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2174, in make_response
+    raise TypeError(
+TypeError: The view function did not return a valid response. The return type must be a string, dict, list, tuple with headers or status, Response instance, or WSGI callable, but it was a AssertionError.
+2025-03-06 13:01:00 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:20:10 INFO Rota /api/professorlistAll acessada.
+2025-03-06 13:20:10 INFO Rota /api/chamada/listAll acessada.
+2025-03-06 13:20:10 INFO Rota /api/professorlistAll acessada.
+2025-03-06 13:20:10 INFO Rota /api/chamada/listAll acessada.
+2025-03-06 13:20:10 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:20:10 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:20:16 INFO Rota /api/materia/listAll acessada.
+2025-03-06 13:20:16 WARNING Task queue depth is 1
+2025-03-06 13:20:16 INFO Rota /api/turma/listAll acessada.
+2025-03-06 13:20:16 WARNING Task queue depth is 1
+2025-03-06 13:20:16 WARNING Task queue depth is 2
+2025-03-06 13:20:16 INFO Rota /api/materia/listAll acessada.
+2025-03-06 13:20:16 INFO Rota /api/turma/listAll acessada.
+2025-03-06 13:20:16 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:20:16 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:20:17 WARNING Task queue depth is 1
+2025-03-06 13:20:17 WARNING Task queue depth is 2
+2025-03-06 13:20:18 WARNING Task queue depth is 3
+2025-03-06 13:20:18 WARNING Task queue depth is 4
+2025-03-06 13:20:19 WARNING Task queue depth is 5
+2025-03-06 13:20:31 WARNING Task queue depth is 4
+2025-03-06 13:20:31 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:20:31 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:20:37 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:20:37 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:20:49 WARNING Task queue depth is 3
+2025-03-06 13:20:49 WARNING Task queue depth is 4
+2025-03-06 13:20:49 WARNING Task queue depth is 5
+2025-03-06 13:20:52 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:20:52 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:20:58 WARNING Task queue depth is 2
+2025-03-06 13:20:58 WARNING Task queue depth is 1
+2025-03-06 13:20:58 WARNING Task queue depth is 1
+2025-03-06 13:20:58 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:20:58 WARNING Task queue depth is 2
+2025-03-06 13:20:58 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:20:58 WARNING Task queue depth is 3
+2025-03-06 13:20:58 WARNING Task queue depth is 4
+2025-03-06 13:20:58 WARNING Task queue depth is 5
+2025-03-06 13:21:13 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:21:13 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:21:19 WARNING Task queue depth is 2
+2025-03-06 13:21:19 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:21:19 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:21:34 WARNING Task queue depth is 1
+2025-03-06 13:21:34 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:21:34 WARNING Task queue depth is 2
+2025-03-06 13:21:34 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:21:39 WARNING Task queue depth is 3
+2025-03-06 13:21:40 WARNING Task queue depth is 2
+2025-03-06 13:21:40 WARNING Task queue depth is 2
+2025-03-06 13:21:40 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:21:40 WARNING Task queue depth is 2
+2025-03-06 13:21:40 WARNING Task queue depth is 2
+2025-03-06 13:21:40 WARNING Task queue depth is 2
+2025-03-06 13:21:40 WARNING Task queue depth is 2
+2025-03-06 13:21:40 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:21:40 WARNING Task queue depth is 3
+2025-03-06 13:21:40 WARNING Task queue depth is 4
+2025-03-06 13:21:40 WARNING Task queue depth is 5
+2025-03-06 13:21:55 INFO Rota /api/materia acessada.
+2025-03-06 13:21:55 WARNING Task queue depth is 2
+2025-03-06 13:21:55 INFO Materia registrada.
+2025-03-06 13:21:55 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:21:55 WARNING Task queue depth is 3
+2025-03-06 13:21:55 WARNING Task queue depth is 4
+2025-03-06 13:22:01 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:22:01 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:22:01 WARNING Task queue depth is 2
+2025-03-06 13:22:01 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:22:01 WARNING Task queue depth is 3
+2025-03-06 13:22:02 WARNING Task queue depth is 4
+2025-03-06 13:22:03 WARNING Task queue depth is 5
+2025-03-06 13:22:15 WARNING Task queue depth is 6
+2025-03-06 13:22:15 WARNING Task queue depth is 7
+2025-03-06 13:22:15 WARNING Task queue depth is 8
+2025-03-06 13:22:15 WARNING Task queue depth is 9
+2025-03-06 13:22:16 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:22:22 WARNING Task queue depth is 1
+2025-03-06 13:22:22 WARNING Task queue depth is 1
+2025-03-06 13:22:22 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:22:22 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:22:22 WARNING Task queue depth is 2
+2025-03-06 13:22:22 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:22:34 WARNING Task queue depth is 2
+2025-03-06 13:22:34 WARNING Task queue depth is 3
+2025-03-06 13:22:34 WARNING Task queue depth is 4
+2025-03-06 13:22:34 WARNING Task queue depth is 5
+2025-03-06 13:22:37 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:22:42 WARNING Task queue depth is 5
+2025-03-06 13:22:43 WARNING Task queue depth is 1
+2025-03-06 13:22:44 INFO Rota /api/turma/listAll acessada.
+2025-03-06 13:22:44 INFO Rota /api/materia/listAll acessada.
+2025-03-06 13:22:44 INFO Rota /api/turma/listAll acessada.
+2025-03-06 13:22:44 WARNING Task queue depth is 1
+2025-03-06 13:22:44 WARNING Task queue depth is 2
+2025-03-06 13:22:44 INFO Rota /api/materia/listAll acessada.
+2025-03-06 13:22:44 WARNING Task queue depth is 1
+2025-03-06 13:22:44 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:22:44 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:23:03 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:23:03 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:23:03 WARNING Task queue depth is 1
+2025-03-06 13:23:03 WARNING Task queue depth is 2
+2025-03-06 13:23:05 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:23:05 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:23:17 WARNING Task queue depth is 1
+2025-03-06 13:23:17 WARNING Task queue depth is 2
+2025-03-06 13:23:24 WARNING Task queue depth is 1
+2025-03-06 13:23:24 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:23:24 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:30:23 INFO Usuário deslogado com sucesso.
+2025-03-06 13:30:27 INFO Usuário deslogado com sucesso.
+2025-03-06 13:30:27 INFO Usuário deslogado com sucesso.
+2025-03-06 13:30:27 INFO Usuário deslogado com sucesso.
+2025-03-06 13:30:27 WARNING Task queue depth is 1
+2025-03-06 13:30:28 INFO Usuário deslogado com sucesso.
+2025-03-06 13:30:28 WARNING Task queue depth is 1
+2025-03-06 13:30:28 WARNING Task queue depth is 2
+2025-03-06 13:30:28 WARNING Task queue depth is 2
+2025-03-06 13:30:28 WARNING Task queue depth is 2
+2025-03-06 13:30:28 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:30:28 WARNING Task queue depth is 1
+2025-03-06 13:30:28 WARNING Task queue depth is 2
+2025-03-06 13:30:28 WARNING Task queue depth is 2
+2025-03-06 13:30:28 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:30:28 DEBUG Starting new HTTP connection (1): 52.87.234.237:5055
+2025-03-06 13:30:45 ERROR Exception while serving /api/logout
+Traceback (most recent call last):
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\_parsers\socket.py", line 65, in _read_from_socket
+    data = self._sock.recv(socket_read_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TimeoutError: [WinError 10060] Uma tentativa de conexão falhou porque o componente conectado não respondeu
+corretamente após um período de tempo ou a conexão estabelecida falhou
+porque o host conectado não respondeu
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\channel.py", line 430, in service
+    task.service()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 167, in service
+    self.execute()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\task.py", line 435, in execute
+    app_iter = self.channel.server.application(environ, start_response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\waitress\proxy_headers.py", line 64, in translate_proxy_headers
+    return app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2552, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2532, in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1826, in full_dispatch_request
+    return self.finalize_request(rv)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 1847, in finalize_request
+    response = self.process_response(response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask\app.py", line 2344, in process_response
+    self.session_interface.save_session(self, ctx.session, response)
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask_session\base.py", line 296, in save_session
+    self._delete_session(store_id)
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\flask_session\redis\redis.py", line 70, in _delete_session
+    self.client.delete(store_id)
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\commands\core.py", line 1705, in delete
+    return self.execute_command("DEL", *names)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\client.py", line 559, in execute_command
+    return self._execute_command(*args, **options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\client.py", line 567, in _execute_command
+    return conn.retry.call_with_retry(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\retry.py", line 65, in call_with_retry
+    fail(error)
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\client.py", line 571, in <lambda>
+    lambda error: self._disconnect_raise(conn, error),
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\client.py", line 555, in _disconnect_raise
+    raise error
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\retry.py", line 62, in call_with_retry
+    return do()
+           ^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\client.py", line 568, in <lambda>
+    lambda: self._send_command_parse_response(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\client.py", line 542, in _send_command_parse_response
+    return self.parse_response(conn, command_name, **options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\client.py", line 584, in parse_response
+    response = connection.read_response()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\connection.py", line 592, in read_response
+    response = self._parser.read_response(disable_decoding=disable_decoding)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\_parsers\resp2.py", line 15, in read_response
+    result = self._read_response(disable_decoding=disable_decoding)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\_parsers\resp2.py", line 25, in _read_response
+    raw = self._buffer.readline()
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\_parsers\socket.py", line 115, in readline
+    self._read_from_socket()
+  File "F:\Mensal\app_presente_back\venv\Lib\site-packages\redis\_parsers\socket.py", line 78, in _read_from_socket
+    raise TimeoutError("Timeout reading from socket")
+redis.exceptions.TimeoutError: Timeout reading from socket
