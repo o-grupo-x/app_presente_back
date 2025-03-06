@@ -26,7 +26,7 @@ WTF_CSRF_ENABLED = True
 # flask mail settings
 
 #MAIL_DEFAULT_SENDER =os.environ.get('MAIL_DEFAULT_SENDER')
-SQLALCHEMY_DATABASE_URI = f'postgresql://{DATABASE_LOGIN}:{DATABASE_PASS}@{DATABASE_IP}/app_presente'
+SQLALCHEMY_DATABASE_URI = f'postgresql+psycopg://{DATABASE_LOGIN}:{DATABASE_PASS}@{DATABASE_IP}/app_presente'
 
 # Redis
 REDIS_HOST = os.environ.get('REDIS_HOST')
