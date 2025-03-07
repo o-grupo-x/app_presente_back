@@ -5,13 +5,13 @@ from datetime import timedelta
 load_dotenv()
 
 # -*- coding: utf-8 -*-
-DATABASE_LOGIN = os.environ.get('DATABASE_LOGIN')
-DATABASE_PASS = os.environ.get('DATABASE_SENHA')
+DATABASE_LOGIN = os.environ.get('USER_DATABASE')
+DATABASE_PASS = os.environ.get('SENHA_DATABASE')
 DATABASE_IP = os.environ.get('DATABASE_IP')
 
 # flask core settings
-DEBUG = False
-TESTING = False
+DEBUG = True
+TESTING = True
 SECRET_KEY = os.environ.get('SECRET_KEY')
 PERMANENT_SESSION_LIFETIME = 60 * 60 * 24 * 30
 JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=3)
@@ -26,7 +26,7 @@ WTF_CSRF_ENABLED = True
 # flask mail settings
 
 #MAIL_DEFAULT_SENDER =os.environ.get('MAIL_DEFAULT_SENDER')
-SQLALCHEMY_DATABASE_URI = f'postgresql://{DATABASE_LOGIN}:{DATABASE_PASS}@{DATABASE_IP}/app_presente'
+SQLALCHEMY_DATABASE_URI = f'postgresql+psycopg://{DATABASE_LOGIN}:{DATABASE_PASS}@{DATABASE_IP}/app_presente'
 
 # Redis
 REDIS_HOST = os.environ.get('REDIS_HOST')
