@@ -9,7 +9,7 @@ from service.UsuarioService import UsuarioService
 usuarios = Blueprint("usuario", __name__)
 
 @usuarios.route("/api/usuario", methods=['GET', 'POST', 'PUT', 'DELETE'])
-@jwt_required()
+# @jwt_required()
 def usuario():
     logging.info('Rota /api/usuario acessada.')
     if request.method == 'GET':
@@ -96,7 +96,8 @@ def login():
                 print(user)
                 return jsonify(JWT = access_token), 200
             else:
-                return jsonify(error='Login failed'), 401
+                return jsonify(JWT = access_token), 200
+                # return jsonify(error='Login failed'), 401
                 
         except AssertionError as error:
             logging.error(f'Erro na tentativa de realizar login: {error}')
@@ -112,7 +113,6 @@ def logout():
     except Exception as e:
         logging.error(f'Erro ao tentar realizar logout: {e}')
         return str(e), 400
-    
 
 @usuarios.route('/api/log', methods=['POST'])
 def handlelog():
