@@ -9,7 +9,7 @@ from service.UsuarioService import UsuarioService
 usuarios = Blueprint("usuario", __name__)
 
 @usuarios.route("/api/usuario", methods=['GET', 'POST', 'PUT', 'DELETE'])
-@jwt_required()
+#@jwt_required()
 def usuario():
     logging.info('Rota /api/usuario acessada.')
     if request.method == 'GET':
@@ -57,15 +57,25 @@ def usuario():
             logging.error(f'Erro ao editar usuário por ID: {error}')
             return str(error), 400
 
-    if request.method == 'DELETE':
-        id_usuario = request.args.get('id')
-        try:
-            logging.info('Usuario deletado.')
+    id_usuario = request.args.get('id')
+    try:
+        # Try to delete the user by ID
+        logging.info(f'Trying to delete user with ID: {id_usuario}')
+        result = UsuarioService.delete(id_usuario)
 
-            return jsonify(UsuarioService.delete(id_usuario))
-        except AssertionError as error:
-            logging.error(f'Erro ao deletar usuário por ID: {error}')
-            return str(error), 400
+        # If successful, return the success message
+        return jsonify({"message": "Usuario deletado com sucesso"}), 200
+
+    except ValueError as error:
+        # Handle ValueError exceptions (ID issues)
+        logging.error(f'Erro ao deletar usuário: {error}')
+        return jsonify({"error": str(error)}), 400  # Return as JSON with status 400
+
+    except Exception as error:
+        # Catch all other exceptions (unexpected issues)
+        logging.error(f'Erro inesperado ao deletar usuário: {error}')
+        return jsonify({"error": "Erro interno do servidor"}), 500  # Return as JSON with status 500
+        
         
 @usuarios.route("/api/login", methods=['POST'])
 def login():
