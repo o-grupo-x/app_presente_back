@@ -5,8 +5,8 @@ from datetime import timedelta
 load_dotenv()
 
 # -*- coding: utf-8 -*-
-DATABASE_LOGIN = os.environ.get('USER_DATABASE')
-DATABASE_PASS = os.environ.get('SENHA_DATABASE')
+DATABASE_LOGIN = os.environ.get('DATABASE_LOGIN')
+DATABASE_PASS = os.environ.get('DATABASE_PASS')
 DATABASE_IP = os.environ.get('DATABASE_IP')
 
 # flask core settings

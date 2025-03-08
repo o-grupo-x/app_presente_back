@@ -122,3 +122,12 @@ class PresencaService():
         presenca = Presenca(id_aluno=aluno_dto.id_aluno, id_chamada=aluno_dto.id_chamada, status=aluno_dto.status, tipo_presenca=aluno_dto.tipo_presenca, horario=aluno_dto.horario, cargo_manual=aluno_dto.cargo_manual, id_manual=aluno_dto.id_manual)
 
         return presenca
+    
+    @staticmethod
+    def get_attendance_report_by_date(data):
+        try:
+            datetime.strptime(data, "%Y-%m-%d")
+        except ValueError:
+            raise AssertionError("Formato de data inválido. Use YYYY-MM-DD.")
+
+        return PresencaRepository.get_attendance_by_date(data)

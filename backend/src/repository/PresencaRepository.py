@@ -118,3 +118,47 @@ class PresencaRepository():
 
         return "Presença realizada!"
     
+    @staticmethod
+    def get_attendance_by_date(data):
+        query = """
+            SELECT 
+                p.id_presenca,
+                a.id_aluno,
+                a.nome AS aluno_nome,
+                t.nome AS turma_nome,
+                m.nome AS materia_nome,
+                c.abertura AS chamada_abertura,
+                c.encerramento AS chamada_encerramento,
+                p.status AS presenca_status,
+                p.horario AS presenca_horario,
+                p.tipo_presenca
+            FROM presencas p
+            JOIN chamadas c ON p.id_chamada = c.id_chamada
+            JOIN alunos a ON p.id_aluno = a.id_aluno
+            JOIN turma_aluno ta ON a.id_aluno = ta.id_aluno
+            JOIN turmas t ON ta.id_turma = t.id_turma
+            JOIN materias m ON t.id_materia = m.id_materia
+            WHERE DATE(c.abertura) = :data
+            ORDER BY c.abertura, t.nome, a.nome;
+        """
+
+        with db.engine.connect() as connection:
+            result = connection.execute(db.text(query), {'data': data}).fetchall()
+
+        attendance_list = [
+            {
+                "id_presenca": row[0],
+                "id_aluno": row[1],
+                "aluno_nome": row[2],
+                "turma_nome": row[3],
+                "materia_nome": row[4],
+                "chamada_abertura": row[5].isoformat() if row[5] else None,
+                "chamada_encerramento": row[6].isoformat() if row[6] else None,
+                "presenca_status": row[7],
+                "presenca_horario": row[8].isoformat() if row[8] else None,
+                "tipo_presenca": row[9]
+            }
+            for row in result
+        ]
+
+        return attendance_list
