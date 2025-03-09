@@ -92,3 +92,19 @@ def list_all():
 def find_by_presentes():
     logging.info('Rota /api/presenca/findByPresentes acessada.')
     return PresencaRepository.find_by_presentes()
+
+@presencas.route("/api/presenca/relatorio", methods=['GET'])
+@jwt_required()
+def get_attendance_report():
+    logging.info('Rota /api/presenca/relatorio acessada.')
+
+    data = request.args.get('data')
+
+    if not data:
+        return jsonify({"error": "A data é obrigatória. Use o formato YYYY-MM-DD."}), 400
+
+    try:
+        return jsonify(PresencaService.get_attendance_report_by_date(data))
+    except AssertionError as error:
+        logging.error(f'Erro ao obter relatório de presença: {error}')    
+        return str(error), 400

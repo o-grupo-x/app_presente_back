@@ -81,10 +81,21 @@ class UsuarioService():
 
     @staticmethod
     def delete(id):
-        
-        assert int(id) if isinstance(id, (int,str)) and id.isdigit() else None, "ID incorreto."
-        assert int(id) > 0 and int(id) < 999999, "ID inválido"
-        assert Usuario.query.filter(Usuario.id_usuario == id).first() is not None, "Usuario não encontrado" 
+        # Validate ID as a digit
+        if not isinstance(id, (int, str)) or not str(id).isdigit():
+            raise ValueError("ID incorreto.")  # Provide a more informative exception
+        # Convert to integer
+        id = int(id)
+        # Validate ID range
+        if id <= 0 or id >= 999999:
+            raise ValueError("ID inválido")  # Provide a more informative exception
+
+        # Check if user exists in the database
+        user = Usuario.query.filter(Usuario.id_usuario == id).first()
+        if not user:
+            raise ValueError("Usuario não encontrado")  # Provide a more informative exception
+
+        # Call the repository to delete the user
         return UsuarioRepository.delete(id)      
 
 

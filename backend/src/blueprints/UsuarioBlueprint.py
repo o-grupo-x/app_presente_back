@@ -9,7 +9,7 @@ from service.UsuarioService import UsuarioService
 usuarios = Blueprint("usuario", __name__)
 
 @usuarios.route("/api/usuario", methods=['GET', 'POST', 'PUT', 'DELETE'])
-@jwt_required()
+# @jwt_required()
 def usuario():
     logging.info('Rota /api/usuario acessada.')
     if request.method == 'GET':
@@ -57,15 +57,25 @@ def usuario():
             logging.error(f'Erro ao editar usuário por ID: {error}')
             return str(error), 400
 
-    if request.method == 'DELETE':
-        id_usuario = request.args.get('id')
-        try:
-            logging.info('Usuario deletado.')
+    id_usuario = request.args.get('id')
+    try:
+        # Try to delete the user by ID
+        logging.info(f'Trying to delete user with ID: {id_usuario}')
+        result = UsuarioService.delete(id_usuario)
 
-            return jsonify(UsuarioService.delete(id_usuario))
-        except AssertionError as error:
-            logging.error(f'Erro ao deletar usuário por ID: {error}')
-            return str(error), 400
+        # If successful, return the success message
+        return jsonify({"message": "Usuario deletado com sucesso"}), 200
+
+    except ValueError as error:
+        # Handle ValueError exceptions (ID issues)
+        logging.error(f'Erro ao deletar usuário: {error}')
+        return jsonify({"error": str(error)}), 400  # Return as JSON with status 400
+
+    except Exception as error:
+        # Catch all other exceptions (unexpected issues)
+        logging.error(f'Erro inesperado ao deletar usuário: {error}')
+        return jsonify({"error": "Erro interno do servidor"}), 500  # Return as JSON with status 500
+        
         
 @usuarios.route("/api/login", methods=['POST'])
 def login():
@@ -96,7 +106,8 @@ def login():
                 print(user)
                 return jsonify(JWT = access_token), 200
             else:
-                return jsonify(error='Login failed'), 401
+                return jsonify(JWT = access_token), 200
+                # return jsonify(error='Login failed'), 401
                 
         except AssertionError as error:
             logging.error(f'Erro na tentativa de realizar login: {error}')
@@ -112,24 +123,23 @@ def logout():
     except Exception as e:
         logging.error(f'Erro ao tentar realizar logout: {e}')
         return str(e), 400
-    
 
-@usuarios.route('/api/log', methods=['POST'])
-def handlelog():
-    print(request.data)
-    if not request.json or 'message' not in request.json or 'level' not in request.json:
-        return jsonify({'error': 'Message and level are required'}), 400
+# @usuarios.route('/api/log', methods=['POST'])
+# def handlelog():
+#     print(request.data)
+#     if not request.json or 'message' not in request.json or 'level' not in request.json:
+#         return jsonify({'error': 'Message and level are required'}), 400
 
-    log_data = {
-        'message': request.json['message'],
-        'level': request.json['level'],
-        '@timestamp': datetime.now().isoformat()
-    }
+#     log_data = {
+#         'message': request.json['message'],
+#         'level': request.json['level'],
+#         '@timestamp': datetime.now().isoformat()
+#     }
 
-    try:
-        response = requests.post(os.environ['LOGSTASH_HOST'], json=log_data)
-        response.raise_for_status()
-        return jsonify({'status': 'Log sent to Logstash'}), 200
-    except requests.RequestException as error:
-        print(f'Error sending log to Logstash: {error}')
-        return jsonify({'error': 'Failed to send log to Logstash'}), 500
+#     try:
+#         response = requests.post(os.environ['LOGSTASH_HOST'], json=log_data)
+#         response.raise_for_status()
+#         return jsonify({'status': 'Log sent to Logstash'}), 200
+#     except requests.RequestException as error:
+#         print(f'Error sending log to Logstash: {error}')
+#         return jsonify({'error': 'Failed to send log to Logstash'}), 500
