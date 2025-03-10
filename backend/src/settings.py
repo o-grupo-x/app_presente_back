@@ -25,7 +25,7 @@ HANDLER = "StreamHandler"
 WTF_CSRF_ENABLED = True
 
 # Flask-SQLAlchemy settings
-SQLALCHEMY_DATABASE_URI = f'postgresql+psycopg://{DATABASE_LOGIN}:{DATABASE_PASS}@{DATABASE_IP}/app_presente'
+SQLALCHEMY_DATABASE_URI = f'postgresql+psycopg2://{DATABASE_LOGIN}:{DATABASE_PASS}@{DATABASE_IP}/app_presente'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 # Redis settings
