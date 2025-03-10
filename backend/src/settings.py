@@ -5,13 +5,13 @@ from datetime import timedelta
 load_dotenv()
 
 # -*- coding: utf-8 -*-
-DATABASE_LOGIN = os.environ.get('DATABASE_LOGIN')
-DATABASE_PASS = os.environ.get('DATABASE_PASS')
+DATABASE_LOGIN = os.environ.get('NOME_DATABASE')
+DATABASE_PASS = os.environ.get('SENHA_DATABASE')
 DATABASE_IP = os.environ.get('DATABASE_IP')
 
 # flask core settings
-DEBUG = True
-TESTING = True
+DEBUG = False
+TESTING = False
 SECRET_KEY = os.environ.get('SECRET_KEY')
 PERMANENT_SESSION_LIFETIME = 60 * 60 * 24 * 30
 JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=3)
