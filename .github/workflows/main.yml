@@ -25,18 +25,6 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
-      redis:
-        image: redis/redis-stack-server:latest
-        env:
-          REDIS_ARGS: "--requirepass redis"
-        ports:
-          - 6379:6379
-        options: >-
-          --health-cmd "redis-cli -a redis ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -46,12 +34,22 @@ jobs:
         with:
           python-version: '3.9'
 
+      - name: Install PostgreSQL Client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
       - name: Install Dependencies
         working-directory: ./backend/src
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest
+
+      - name: Wait for PostgreSQL
+        run: |
+          until pg_isready -h localhost -p 5432 -U postgres; do
+            echo "Waiting for PostgreSQL..."
+            sleep 2
+          done
 
       - name: Run Backend Tests
         working-directory: ./backend/src
@@ -60,9 +58,9 @@ jobs:
           DATABASE_PASS: Vkhn2W3LudKzzis
           DATABASE_IP: localhost
           SECRET_KEY: qualquercoisa
-          REDIS_HOST: localhost
-          REDIS_PORT: 6379
-          REDIS_PASSWORD: redis
+          REDIS_HOST: ${{ secrets.REDIS_HOST }}
+          REDIS_PORT: ${{ secrets.REDIS_PORT }}
+          REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
           DEBUG: True
         run: pytest tests/ -v
 
