@@ -1,4 +1,3 @@
-import datetime
 from repository.PainelRepository import PainelRepository
 
 from entity.Painel import Painel

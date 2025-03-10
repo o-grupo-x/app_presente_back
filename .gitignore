@@ -15,3 +15,4 @@ presente-env/
 /backend/src/.coverage
 /backend/src/*coverage
 /backend/src/.env
+/backend/src/backend.log

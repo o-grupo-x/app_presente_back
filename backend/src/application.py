@@ -1,12 +1,12 @@
 from flask import Flask
 from flask_cors import CORS
-from models import login_manager
+from models import login_manager, db
+from flask_session import Session
+import redis
 import logging
 from json_log_formatter import JSONFormatter
 import warnings
 from sqlalchemy import exc as sqlalchemy_exc
-from flask_session import Session
-import redis
 
 class CustomJSONFormatter(JSONFormatter):
     def json_record(self, message, extra, record):
@@ -23,11 +23,10 @@ class CustomJSONFormatter(JSONFormatter):
         extra['ecs.version'] = '1.6.0'
         return extra
 
-def create_app(config_file):
-    
-    warnings.filterwarnings("ignore", category=sqlalchemy_exc.SAWarning)
+def create_app(config_file='settings.py'):
+    # Suppress SQLAlchemy deprecation warning
+    warnings.filterwarnings("ignore", category=DeprecationWarning, module="sqlalchemy")
 
-    from models import db
     from flask_login import LoginManager
     from blueprints.AlunoBlueprint import alunos
     from blueprints.ChamadaBlueprint import chamadas
@@ -43,11 +42,11 @@ def create_app(config_file):
     from flask_wtf.csrf import CSRFProtect
     from flask_jwt_extended import JWTManager
 
-
     app = Flask(__name__)
     CORS(app)
     # CSRFProtect(app)
-    
+
+    # Logging setup
     logging.basicConfig(
         level=logging.DEBUG,
         format="%(asctime)s %(levelname)s %(message)s",
@@ -59,19 +58,32 @@ def create_app(config_file):
     )
 
     formatter = CustomJSONFormatter()
-
     json_handler = logging.FileHandler('backend.log')
     json_handler.setFormatter(formatter)
-
     json_logger = logging.getLogger('json_logger')
     json_logger.addHandler(json_handler)
     json_logger.setLevel(logging.INFO)
 
+    # Load config
+    app.config.from_pyfile(config_file)
 
-    app.config.from_pyfile(config_file)   
+    # Initialize Redis for Flask-Session
+    app.config['SESSION_REDIS'] = redis.Redis(
+        host=app.config['REDIS_HOST'],
+        port=app.config['REDIS_PORT'],
+        password=app.config['REDIS_PASSWORD'],
+        decode_responses=True
+    )
 
-    jwt = JWTManager(app)
+    # Initialize Flask-Session
+    Session(app)
 
+    # Initialize extensions
+    JWTManager(app)
+    db.init_app(app)
+    login_manager.init_app(app)
+
+    # Register blueprints
     app.register_blueprint(alunos)
     app.register_blueprint(chamadas)
     app.register_blueprint(lembretes)
@@ -84,24 +96,5 @@ def create_app(config_file):
     app.register_blueprint(usuarios)
     app.register_blueprint(configuracoes)
 
-
-    # Configuração da sessão com Redis
-    app.config['SESSION_TYPE'] = 'redis'
-    app.config['SESSION_PERMANENT'] = False
-    app.config['SESSION_USE_SIGNER'] = True
-    app.config['SESSION_KEY_PREFIX'] = "session:" 
-    app.config['SESSION_REDIS'] = redis.Redis(
-        host=app.config['REDIS_HOST'],
-        port=app.config['REDIS_PORT'],
-        password=app.config['REDIS_PASSWORD']
-    )
-
-    Session(app)
-    
-    db.init_app(app)
-    
-    
-    login_manager.init_app(app)
     app.logger.info('Aplicativo inicializado com sucesso.')
-
     return app

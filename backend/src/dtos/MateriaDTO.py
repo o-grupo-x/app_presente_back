@@ -1,7 +1,5 @@
-from pydantic import validate_arguments
+from pydantic import BaseModel
 
-class MateriaDTO:
-    @validate_arguments
-    def __init__(self, status:bool, nome:str):
-        self.status = status
-        self.nome = nome
+class MateriaDTO(BaseModel):
+    status: bool
+    nome: str
