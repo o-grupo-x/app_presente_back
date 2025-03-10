@@ -42,7 +42,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install pytest
+          pip install pytest redis
 
       - name: Wait for PostgreSQL
         run: |
@@ -51,16 +51,25 @@ jobs:
             sleep 2
           done
 
+      - name: Test Redis Connectivity
+        working-directory: ./backend/src
+        env:
+          REDIS_HOST: 34.42.41.55
+          REDIS_PORT: 6379
+          REDIS_PASSWORD: redis
+        run: |
+          python -c "import redis; r = redis.Redis(host='34.42.41.55', port=6379, password='redis', decode_responses=True); print(r.ping())"
+
       - name: Run Backend Tests
         working-directory: ./backend/src
         env:
-          DATABASE_LOGIN: postgres
-          DATABASE_PASS: Vkhn2W3LudKzzis
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: Vkhn2W3LudKzzis
           DATABASE_IP: localhost
           SECRET_KEY: qualquercoisa
-          REDIS_HOST: ${{ secrets.REDIS_HOST }}
-          REDIS_PORT: ${{ secrets.REDIS_PORT }}
-          REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
+          REDIS_HOST: 34.42.41.55
+          REDIS_PORT: 6379
+          REDIS_PASSWORD: redis
           DEBUG: True
         run: pytest tests/ -v
 
