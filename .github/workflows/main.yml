@@ -67,9 +67,9 @@ jobs:
           POSTGRES_PASSWORD: Vkhn2W3LudKzzis
           DATABASE_IP: localhost
           SECRET_KEY: qualquercoisa
-          REDIS_HOST: 34.42.41.55
-          REDIS_PORT: 6379
-          REDIS_PASSWORD: redis
+          REDIS_HOST: ${{ secrets.REDIS_HOST }}
+          REDIS_PORT: ${{ secrets.REDIS_PORT }}
+          REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
           DEBUG: True
         run: pytest tests/ -v
 
