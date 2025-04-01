@@ -1,13 +1,4 @@
-FROM python:3.12
-
-RUN apt-get update && apt-get install -y \
-    gcc \
-    libffi-dev \
-    python3-dev \
-    libc-dev \
-    build-essential \
-    libssl-dev \
-    && rm -rf /var/lib/apt/lists/*
+FROM python:3.11
 
 WORKDIR /app
 

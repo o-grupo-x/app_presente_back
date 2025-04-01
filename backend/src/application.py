@@ -24,7 +24,6 @@ class CustomJSONFormatter(JSONFormatter):
         return extra
 
 def create_app(config_file='settings.py'):
-    # Suppress SQLAlchemy deprecation warning
     warnings.filterwarnings("ignore", category=DeprecationWarning, module="sqlalchemy")
 
     from flask_login import LoginManager
@@ -44,7 +43,6 @@ def create_app(config_file='settings.py'):
 
     app = Flask(__name__)
     CORS(app)
-    # CSRFProtect(app)
 
     # Logging setup
     logging.basicConfig(
@@ -54,7 +52,7 @@ def create_app(config_file='settings.py'):
         handlers=[
             logging.FileHandler("backend.log"),
             logging.StreamHandler()
-        ]             
+        ]
     )
 
     formatter = CustomJSONFormatter()
@@ -67,16 +65,35 @@ def create_app(config_file='settings.py'):
     # Load config
     app.config.from_pyfile(config_file)
 
-    # Initialize Redis for Flask-Session
-    app.config['SESSION_REDIS'] = redis.Redis(
-        host=app.config['REDIS_HOST'],
-        port=app.config['REDIS_PORT'],
-        password=app.config['REDIS_PASSWORD'],
-        decode_responses=True
-    )
+    # Initialize Redis for Flask-Session with connection check
+    try:
+        redis_client = redis.Redis(
+            host=app.config['REDIS_HOST'],
+            port=app.config['REDIS_PORT'],
+            password=app.config['REDIS_PASSWORD'],
+            decode_responses=True
+        )
+        redis_client.ping()
+        app.logger.info(f"Successfully connected to Redis at {app.config['REDIS_HOST']}:{app.config['REDIS_PORT']}")
+    except redis.ConnectionError as e:
+        app.logger.error(f"Failed to connect to Redis: {str(e)}")
+        raise
 
-    # Initialize Flask-Session
+    app.config['SESSION_REDIS'] = redis_client
     Session(app)
+
+    # Patch Flask-Session to handle invalid session data
+    from flask_session import RedisSessionInterface
+    original_open_session = RedisSessionInterface.open_session
+
+    def patched_open_session(self, app, request):
+        try:
+            return original_open_session(self, app, request)
+        except UnicodeDecodeError as e:
+            app.logger.warning(f"Invalid session data detected: {str(e)}. Starting fresh session.")
+            return self.session_class()  # Return a new, empty session
+
+    RedisSessionInterface.open_session = patched_open_session
 
     # Initialize extensions
     JWTManager(app)

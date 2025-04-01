@@ -13,12 +13,12 @@ DATABASE_IP = os.environ.get('DATABASE_IP')
 DEBUG = False
 TESTING = False
 SECRET_KEY = os.environ.get('SECRET_KEY')
-PERMANENT_SESSION_LIFETIME = 60 * 60 * 24 * 30  # 30 days
+PERMANENT_SESSION_LIFETIME = 60 * 60 * 24 * 30
 JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=3)
 OIDC_CLIENT_SECRETS = 'client_secrets_prod.json'
 OIDC_OPENID_REALM = 'app-presente'
 OIDC_ID_TOKEN_COOKIE_SECURE = False
-OIDC_SCOPES = ['openid']
+OIDC_SCOPES = 'openid'
 HANDLER = "StreamHandler"
 
 # Flask-WTF settings

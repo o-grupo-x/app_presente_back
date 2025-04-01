@@ -87,44 +87,43 @@ class UsuarioRepository():
             if user.cargo.value == "Aluno":  
                 aluno = Aluno.query.filter(Aluno.id_usuario == user.id_usuario).first()  
 
-                consulta_sql = db.text("""SELECT t.curso FROM turma_aluno ta
-                    JOIN alunos a ON a.id_aluno = ta.id_aluno
-                    JOIN turmas t ON t.id_turma = ta.id_turma """)
-
+                consulta_sql = db.text("""SELECT t.curso 
+                                        FROM turma_aluno ta
+                                        JOIN alunos a ON a.id_aluno = ta.id_aluno
+                                        JOIN turmas t ON t.id_turma = ta.id_turma
+                                        WHERE a.id_aluno = :id_aluno""")
                 with db.engine.connect() as connection:
-                    curso = connection.execute(consulta_sql).fetchone()
+                    curso_result = connection.execute(consulta_sql, {"id_aluno": aluno.id_aluno}).fetchone()
+                    curso = curso_result[0] if curso_result else None  # Safe extraction
 
                 return {
-                "id_usuario":user.id_usuario,
-                "id_aluno":aluno.id_aluno,
-                "Curso": curso.curso,
-                "Cargo": user.cargo.value,
-                "Nome": user.nome,
-                "RA":aluno.ra,
-                "JWT":access_token
+                    "id_usuario": user.id_usuario,
+                    "id_aluno": aluno.id_aluno,
+                    "Curso": curso,  # Now a string or None
+                    "Cargo": user.cargo.value,
+                    "Nome": user.nome,
+                    "RA": aluno.ra,
+                    "JWT": access_token
                 }
-            
             elif user.cargo.value == "Professor":
                 professor = Professor.query.filter(Professor.id_usuario == user.id_usuario).first()
-                return{
-                    "id_usuario":user.id_usuario,
-                    "id_professor":professor.id_professor,
+                return {
+                    "id_usuario": user.id_usuario,
+                    "id_professor": professor.id_professor,
                     "Cargo": user.cargo.value,
                     "Nome": user.nome,
-                    "JWT":access_token
+                    "JWT": access_token
                 }
-            
             elif user.cargo.value == "Secretaria":
                 secretaria = Secretaria.query.filter(Secretaria.id_usuario == user.id_usuario).first()
-                return{
-                    "id_usuario":user.id_usuario,
-                    "id_secretaria":secretaria.id_secretaria,
+                return {
+                    "id_usuario": user.id_usuario,
+                    "id_secretaria": secretaria.id_secretaria,
                     "Cargo": user.cargo.value,
                     "Nome": user.nome,
-                    "JWT":access_token
+                    "JWT": access_token
                 }
         else:
             raise AssertionError("Não foi possivel realizar o login!")
-              
 
-           
+            
