@@ -54,11 +54,11 @@ jobs:
       - name: Test Redis Connectivity
         working-directory: ./backend/src
         env:
-          REDIS_HOST: 34.42.41.55
+          REDIS_HOST: 34.60.184.70
           REDIS_PORT: 6379
           REDIS_PASSWORD: redis
         run: |
-          python -c "import redis; r = redis.Redis(host='34.42.41.55', port=6379, password='redis', decode_responses=True); print(r.ping())"
+          python -c "import redis; r = redis.Redis(host='34.60.184.70', port=6379, password='redis', decode_responses=True); print(r.ping())"
 
       - name: Run Backend Tests
         working-directory: ./backend/src
