@@ -79,21 +79,15 @@ def create_app(config_file='settings.py'):
         app.logger.error(f"Failed to connect to Redis: {str(e)}")
         raise
 
+    # Configure Flask-Session
+    app.config['SESSION_TYPE'] = 'redis'  # Explicitly set session type to Redis
+    app.config['SESSION_PERMANENT'] = False
+    app.config['SESSION_USE_SIGNER'] = True
+    app.config['SESSION_KEY_PREFIX'] = 'session:'
     app.config['SESSION_REDIS'] = redis_client
+
+    # Initialize session
     Session(app)
-
-    # Patch Flask-Session to handle invalid session data
-    from flask_session import RedisSessionInterface
-    original_open_session = RedisSessionInterface.open_session
-
-    def patched_open_session(self, app, request):
-        try:
-            return original_open_session(self, app, request)
-        except UnicodeDecodeError as e:
-            app.logger.warning(f"Invalid session data detected: {str(e)}. Starting fresh session.")
-            return self.session_class()  # Return a new, empty session
-
-    RedisSessionInterface.open_session = patched_open_session
 
     # Initialize extensions
     JWTManager(app)
