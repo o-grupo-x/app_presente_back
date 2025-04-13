@@ -114,13 +114,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install ZeroTier
+      - name: Install ZeroTier and Authorize Node
+        env:
+          ZEROTIER_NETWORK_ID: ${{ secrets.ZEROTIER_NETWORK_ID }}
+          ZEROTIER_API_TOKEN: ${{ secrets.ZEROTIER_API_TOKEN }}
         run: |
           sudo apt-get update
           sudo apt-get install -y curl
           curl -s https://install.zerotier.com | sudo bash
-          sudo zerotier-cli join ${{ secrets.ZEROTIER_NETWORK_ID }}
+          sudo zerotier-cli join $ZEROTIER_NETWORK_ID
           sleep 10
+          # Get the node ID of the runner
+          NODE_ID=$(sudo zerotier-cli info | awk '{print $3}')
+          echo "Node ID: $NODE_ID"
+          # Authorize the node using the ZeroTier API
+          curl -X POST "https://api.zerotier.com/api/v1/network/$ZEROTIER_NETWORK_ID/member/$NODE_ID" \
+            -H "Authorization: Bearer $ZEROTIER_API_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{"config": {"authorized": true}}'
+          # Verify the node joined the network
           sudo zerotier-cli listnetworks
 
       - name: Deploy to Staging EC2
@@ -210,13 +222,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install ZeroTier
+      - name: Install ZeroTier and Authorize Node
+        env:
+          ZEROTIER_NETWORK_ID: ${{ secrets.ZEROTIER_NETWORK_ID }}
+          ZEROTIER_API_TOKEN: ${{ secrets.ZEROTIER_API_TOKEN }}
         run: |
           sudo apt-get update
           sudo apt-get install -y curl
           curl -s https://install.zerotier.com | sudo bash
-          sudo zerotier-cli join ${{ secrets.ZEROTIER_NETWORK_ID }}
+          sudo zerotier-cli join $ZEROTIER_NETWORK_ID
           sleep 10
+          # Get the node ID of the runner
+          NODE_ID=$(sudo zerotier-cli info | awk '{print $3}')
+          echo "Node ID: $NODE_ID"
+          # Authorize the node using the ZeroTier API
+          curl -X POST "https://api.zerotier.com/api/v1/network/$ZEROTIER_NETWORK_ID/member/$NODE_ID" \
+            -H "Authorization: Bearer $ZEROTIER_API_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{"config": {"authorized": true}}'
+          # Verify the node joined the network
           sudo zerotier-cli listnetworks
 
       - name: Deploy to Production EC2
