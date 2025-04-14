@@ -240,13 +240,15 @@ jobs:
           ZEROTIER_API_TOKEN: ${{ secrets.ZEROTIER_API_TOKEN }}
         run: |
           sudo apt-get update
-          sudo apt-get install -y curl
+          sudo apt-get install -y curl traceroute netcat
           curl -s https://install.zerotier.com | sudo bash
           sudo zerotier-cli join $ZEROTIER_NETWORK_ID
           sleep 10
-          # Get the node ID of the runner
+          # Get the node ID and IP of the runner
           NODE_ID=$(sudo zerotier-cli info | awk '{print $3}')
+          RUNNER_IP=$(sudo zerotier-cli listnetworks | grep $ZEROTIER_NETWORK_ID | awk '{print $4}' | cut -d/ -f1)
           echo "Node ID: $NODE_ID"
+          echo "Runner ZeroTier IP: $RUNNER_IP"
           # Authorize the node and set its name to github-<run_id>
           curl -X POST "https://api.zerotier.com/api/v1/network/$ZEROTIER_NETWORK_ID/member/$NODE_ID" \
             -H "Authorization: Bearer $ZEROTIER_API_TOKEN" \
@@ -254,6 +256,20 @@ jobs:
             -d "{\"name\": \"github-${{ github.run_id }}\", \"config\": {\"authorized\": true}}"
           # Verify the node joined the network
           sudo zerotier-cli listnetworks
+
+      - name: Debug Connectivity to EC2
+        env:
+          EC2_HOST: ${{ secrets.PRODUCTION_EC2_HOST }}
+        run: |
+          echo "EC2_HOST: $EC2_HOST"
+          # Check ZeroTier routes
+          sudo zerotier-cli listpeers
+          # Ping the EC2 host
+          ping -c 4 $EC2_HOST || echo "Ping failed"
+          # Trace the route to the EC2 host
+          traceroute $EC2_HOST || echo "Traceroute failed"
+          # Check if port 22 is open
+          nc -zv $EC2_HOST 22 || echo "Port 22 not reachable"
 
       - name: Deploy to Production EC2
         env:
