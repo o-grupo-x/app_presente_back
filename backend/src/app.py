@@ -4,7 +4,7 @@ from utils import oidc
 
 app = create_app('settings.py')
 oidc.init_app(app)
-@app.route('/health')
+@app.route('/api/health')
 def health():
     return jsonify({"status": "ok"}), 200
 
