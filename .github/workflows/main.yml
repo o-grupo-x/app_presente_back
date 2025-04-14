@@ -120,7 +120,7 @@ jobs:
           ZEROTIER_API_TOKEN: ${{ secrets.ZEROTIER_API_TOKEN }}
         run: |
           sudo apt-get update
-          sudo apt-get install -y curl traceroute netcat
+          sudo apt-get install -y curl traceroute netcat-traditional
           curl -s https://install.zerotier.com | sudo bash
           sudo zerotier-cli join $ZEROTIER_NETWORK_ID
           sleep 10
@@ -267,7 +267,7 @@ jobs:
           ZEROTIER_API_TOKEN: ${{ secrets.ZEROTIER_API_TOKEN }}
         run: |
           sudo apt-get update
-          sudo apt-get install -y curl traceroute netcat
+          sudo apt-get install -y curl traceroute netcat-traditional
           curl -s https://install.zerotier.com | sudo bash
           sudo zerotier-cli join $ZEROTIER_NETWORK_ID
           sleep 10
