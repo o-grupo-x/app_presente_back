@@ -183,7 +183,7 @@ jobs:
             docker pull $DOCKERHUB_USERNAME/presente-backend:staging
 
             # Start the new container on a temporary port to test it
-            docker run -d --name app_presente_backend_staging_new -p 8002:8000 \
+            docker run -d --name app_presente_backend_staging_new -p 5002:8000 \
               -e POSTGRES_USER=$POSTGRES_USER \
               -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
               -e DATABASE_IP=$DATABASE_IP \
@@ -330,7 +330,7 @@ jobs:
             docker pull $DOCKERHUB_USERNAME/presente-backend:production
 
             # Start the new container on a temporary port to test it
-            docker run -d --name app_presente_backend_production_new -p 5001:8000 \
+            docker run -d --name app_presente_backend_production_new -p 5003:8000 \
               -e POSTGRES_USER=$POSTGRES_USER \
               -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
               -e DATABASE_IP=$DATABASE_IP \
