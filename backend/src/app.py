@@ -1,12 +1,12 @@
 from application import create_app
-from flask import jsonify  # Add this import
+from flask import jsonify
 from waitress import serve
 from utils import oidc
 
 app = create_app('settings.py')
 oidc.init_app(app)
 
-@app.route('api/health')  
+@app.route('/api/health')
 def health():
     return jsonify({"status": "ok"}), 200
 
