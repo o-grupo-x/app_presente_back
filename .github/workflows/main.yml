@@ -226,7 +226,7 @@ jobs:
             docker rm app_presente_backend_staging || true
 
             # Start the final container on the correct port
-            docker run -d --name app_presente_backend_staging -p 8001:8000 \
+            docker run -d --name app_presente_backend_staging -p 5001:8000 \
               -e POSTGRES_USER=$POSTGRES_USER \
               -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
               -e DATABASE_IP=$DATABASE_IP \
