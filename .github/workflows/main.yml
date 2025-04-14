@@ -330,7 +330,7 @@ jobs:
             docker pull $DOCKERHUB_USERNAME/presente-backend:production
 
             # Start the new container on a temporary port to test it
-            docker run -d --name app_presente_backend_production_new -p 8003:8000 \
+            docker run -d --name app_presente_backend_production_new -p 5001:8000 \
               -e POSTGRES_USER=$POSTGRES_USER \
               -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
               -e DATABASE_IP=$DATABASE_IP \
@@ -373,7 +373,7 @@ jobs:
             docker rm app_presente_backend_production || true
 
             # Start the final container on the correct port
-            docker run -d --name app_presente_backend_production -p 8000:8000 \
+            docker run -d --name app_presente_backend_production -p 5000:8000 \
               -e POSTGRES_USER=$POSTGRES_USER \
               -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
               -e DATABASE_IP=$DATABASE_IP \
