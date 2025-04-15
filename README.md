@@ -7,7 +7,6 @@
 * 6 - [Benefícios para Professores](#beneficiosparaprofessores)
 * 7 - [Benefícios para a Instituição](#beneficiosparaaInstituicao)
 * 8 - [Funcionalidades para Professores](#funcionalidadesparaprofessores)
-
 * 9 - [Como Contribuir](#comocontribuir)
 
 * 10 - [Requisitos](#requisitos)
