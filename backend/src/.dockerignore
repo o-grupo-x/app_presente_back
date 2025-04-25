@@ -1,0 +1,21 @@
+# Ignora arquivos temporários do sistema operacional
+.DS_Store          # Arquivo do sistema MacOS
+Thumbs.db          # Arquivo de miniaturas do Windows
+
+# Ignora arquivos de logs e outros temporários
+*.log              # Arquivos de log
+*.tmp              # Arquivos temporários
+
+# Ignora pastas de teste, desenvolvimento e arquivos de configuração específicos
+tests/             # Não copie a pasta de testes
+deploy.sh          # Não inclua o script de deploy
+*.conf             # Não inclua arquivos de configuração específicos de desenvolvimento
+client_secrets_prod.json  # Arquivo de credenciais sensíveis
+openssl.conf       # Arquivo de configuração de segurança
+
+# Arquivos relacionados a ambientes virtuais
+venv/              # Pastas de ambiente virtual do Python
+
+# Ignora arquivos e pastas que são específicos de IDEs
+.idea/             # Diretórios do IntelliJ/JetBrains
+.vscode/           # Diretórios do Visual Studio Code
