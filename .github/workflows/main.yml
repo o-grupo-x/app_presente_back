@@ -29,19 +29,19 @@ jobs:
         ports:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-      steps:
-        - uses: actions/checkout@v3
-        - uses: actions/setup-python@v4
-          with:
-            python-version: "3.11"
-        - name: Install Dependencies
-          working-directory: ./backend/src
-          run: |
-            pip install -r requirements.txt
-            pip install pytest
-        - name: Run Tests
-          working-directory: ./backend/src
-          run: pytest tests/ -v
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: Install Dependencies
+        working-directory: ./backend/src
+        run: |
+          pip install -r requirements.txt
+          pip install pytest
+      - name: Run Tests
+        working-directory: ./backend/src
+        run: pytest tests/ -v
 
   build-and-push:
     runs-on: ubuntu-latest
