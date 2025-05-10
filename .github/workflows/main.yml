@@ -70,11 +70,11 @@ jobs:
       - name: Test Redis Connectivity
         working-directory: ./backend/src
         env:
-          REDIS_HOST: 35.202.222.14
+          REDIS_HOST: app-presente-redis-service.stage-app-presente.svc.cluster.local
           REDIS_PORT: 6379
           REDIS_PASSWORD: redis
         run: |
-          python -c "import redis; r = redis.Redis(host='35.202.222.14', port=6379, password='redis', decode_responses=True); print(r.ping())"
+          python -c "import redis; r = redis.Redis(host='app-presente-redis-service.stage-app-presente.svc.cluster.local', port=6379, password='redis', decode_responses=True); print(r.ping())"
 
       - name: Run Backend Tests
         working-directory: ./backend/src
