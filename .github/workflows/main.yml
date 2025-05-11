@@ -17,7 +17,7 @@ env:
   env:
   REDIS_HOST: localhost
   REDIS_PORT: 6379
-  REDIS_PASSWORD: redis  # se necessário
+  REDIS_PASSWORD: redis
 
 
 
@@ -73,15 +73,11 @@ jobs:
             echo 'Waiting for Redis...'
             sleep 2
           done
-          
-      - name: Wait for Services
+
+      - name: Wait for PostgreSQL
         run: |
           until pg_isready -h localhost -p 5432 -U postgres; do
             echo "Waiting for PostgreSQL..."
-            sleep 2
-          done
-          until redis-cli -h localhost -p 6379 ping | grep PONG; do
-            echo "Waiting for Redis..."
             sleep 2
           done
 
