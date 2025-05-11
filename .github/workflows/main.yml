@@ -40,7 +40,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install PostgreSQL Client
         run: sudo apt-get update && sudo apt-get install -y postgresql-client
@@ -87,29 +87,29 @@ jobs:
           DEBUG: True
         run: pytest tests/ -v
 
-    deploy-stage:
-      runs-on: ubuntu-latest
-      needs: test
-      if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v4
+  deploy-stage:
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-        - name: Authenticate to Google Cloud
-          uses: google-github-actions/auth@v2
-          with:
-            credentials_json: '${{ secrets.GOOGLE_CLOUD_KEYS }}'
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: "${{ secrets.GOOGLE_CLOUD_KEYS }}"
 
-        - name: Set up Google Cloud SDK
-          uses: google-github-actions/setup-gcloud@v2
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
 
-        - name: Install gke-gcloud-auth-plugin
-          run: |
-            gcloud components install gke-gcloud-auth-plugin --quiet || { echo "Plugin installation failed"; exit 1; }
-            gcloud components update --quiet
-            which gke-gcloud-auth-plugin || { echo "Plugin not found"; exit 1; }
+      - name: Install gke-gcloud-auth-plugin
+        run: |
+          gcloud components install gke-gcloud-auth-plugin --quiet || { echo "Plugin installation failed"; exit 1; }
+          gcloud components update --quiet
+          which gke-gcloud-auth-plugin || { echo "Plugin not found"; exit 1; }
 
-        - name: Authenticate with GKE cluster
-          run: |
-            gcloud container clusters get-credentials ${{ env.CLUSTER_NAME }} --zone ${{ env.GKE_ZONE }} --project ${{ env.PROJECT_ID }}
-            kubectl version --client
+      - name: Authenticate with GKE cluster
+        run: |
+          gcloud container clusters get-credentials ${{ env.CLUSTER_NAME }} --zone ${{ env.GKE_ZONE }} --project ${{ env.PROJECT_ID }}
+          kubectl version --client
