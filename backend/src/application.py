@@ -70,7 +70,7 @@ def create_app(config_file='settings.py'):
         redis_client = redis.Redis(
             host=app.config['REDIS_HOST'],
             port=app.config['REDIS_PORT'],
-            password=app.config['REDIS_PASSWORD'],
+            # password=app.config['REDIS_PASSWORD'],
             decode_responses=True
         )
         redis_client.ping()
