@@ -73,9 +73,8 @@ jobs:
         env:
           REDIS_HOST: 35.232.92.107
           REDIS_PORT: 6379
-          REDIS_PASSWORD: redis
         run: |
-          python -c "import redis; r = redis.Redis(host=$REDIS_HOST, port=$REDIS_PORT, decode_responses=True); print(r.ping())"
+          python -c "import redis; r = redis.Redis(host='$REDIS_HOST', port=$REDIS_PORT, decode_responses=True); print(r.ping())"
 
       - name: Run Backend Tests
         working-directory: ./backend/src
