@@ -14,38 +14,23 @@ env:
   GKE_ZONE: ${{ secrets.GKE_ZONE }}
   DEPLOYMENT_NAME: presente-backend
   DOCKER_IMAGE: us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/presente-registry/presente-backend
-  REDIS_HOST: localhost
-  REDIS_PORT: 6379
-  REDIS_PASSWORD: redis
 
 
 
 jobs:
   test:
     runs-on: ubuntu-latest
-
     services:
       postgres:
-        image: postgres:15
+        image: postgres:latest
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres  # Use segredo seguro fora do código se possível
+          POSTGRES_PASSWORD: Vkhn2W3LudKzzis
           POSTGRES_DB: app_presente
         ports:
           - 5432:5432
         options: >-
           --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
-      redis:
-        image: redis:7
-        ports:
-          - 6379:6379
-        command: ["redis-server", "--requirepass", "redis"]
-        options: >-
-          --health-cmd "redis-cli -a redis ping"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -60,23 +45,14 @@ jobs:
           python-version: '3.11'
 
       - name: Install PostgreSQL Client
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y postgresql-client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
 
-      - name: Install Python Dependencies
+      - name: Install Dependencies
         working-directory: ./backend/src
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest redis
-
-      - name: Wait for Redis
-        run: |
-          until python -c "import redis; r = redis.Redis(host='localhost', port=6379); r.ping()" 2>/dev/null; do
-            echo 'Waiting for Redis...'
-            sleep 2
-          done
 
       - name: Wait for PostgreSQL
         run: |
@@ -85,9 +61,9 @@ jobs:
             sleep 2
           done
 
-      - name: Initialize Database
+      - name: Initialize Database and Insert Test User
         env:
-          PGPASSWORD: postgres
+          PGPASSWORD: Vkhn2W3LudKzzis
         run: |
           psql -h localhost -p 5432 -U postgres -d app_presente -c "CREATE TABLE IF NOT EXISTS usuario (id_usuario SERIAL PRIMARY KEY, login VARCHAR(255), senha VARCHAR(255), nome VARCHAR(255), cargo VARCHAR(255), id_secretaria INTEGER);"
           psql -h localhost -p 5432 -U postgres -d app_presente -c "INSERT INTO usuario (id_usuario, login, senha, nome, cargo, id_secretaria) VALUES (9999, 'addda', 'teste123', 'Test User', 'Secretaria', 70) ON CONFLICT (id_usuario) DO NOTHING;"
@@ -95,20 +71,20 @@ jobs:
       - name: Test Redis Connectivity
         working-directory: ./backend/src
         env:
-          REDIS_HOST: localhost
+          REDIS_HOST: 35.232.92.107
           REDIS_PORT: 6379
-          REDIS_PASSWORD: redis  # Remova se não usar AUTH
+          REDIS_PASSWORD: redis
         run: |
-          python -c "import redis; r = redis.Redis(host='localhost', port=6379, decode_responses=True); print('Redis ping:', r.ping())"
+          python -c "import redis; r = redis.Redis(host='35.232.92.107', port=6379, password='redis', decode_responses=True); print(r.ping())"
 
       - name: Run Backend Tests
         working-directory: ./backend/src
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_PASSWORD: Vkhn2W3LudKzzis
           DATABASE_IP: localhost
           SECRET_KEY: qualquercoisa
-          REDIS_HOST: localhost
+          REDIS_HOST: 35.202.222.14
           REDIS_PORT: 6379
           REDIS_PASSWORD: redis
           DEBUG: True
