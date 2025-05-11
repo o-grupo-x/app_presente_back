@@ -14,7 +14,6 @@ env:
   GKE_ZONE: ${{ secrets.GKE_ZONE }}
   DEPLOYMENT_NAME: presente-backend
   DOCKER_IMAGE: us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/presente-registry/presente-backend
-  env:
   REDIS_HOST: localhost
   REDIS_PORT: 6379
   REDIS_PASSWORD: redis
