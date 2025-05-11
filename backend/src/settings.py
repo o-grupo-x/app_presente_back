@@ -29,9 +29,9 @@ SQLALCHEMY_DATABASE_URI = f'postgresql+psycopg2://{DATABASE_LOGIN}:{DATABASE_PAS
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 # Redis settings
-REDIS_HOST = os.environ.get('REDIS_HOST', '35.202.222.14')
+REDIS_HOST = os.environ.get('REDIS_HOST', '34.118.229.75')
 REDIS_PORT = int(os.environ.get('REDIS_PORT', 6379))
-REDIS_PASSWORD = os.environ.get('REDIS_PASSWORD', 'redis')
+# REDIS_PASSWORD = os.environ.get('REDIS_PASSWORD', 'redis')
 
 # Flask-Session settings
 SESSION_TYPE = 'redis'
