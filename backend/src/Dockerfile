@@ -28,4 +28,6 @@ EXPOSE 8000
 
 HEALTHCHECK --interval=30s --timeout=3s CMD curl --fail http://localhost:8000/api/health || exit 1
 
+LABEL build_time=$(date)
+
 CMD ["python", "app.py"]
