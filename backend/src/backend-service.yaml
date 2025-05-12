@@ -2,12 +2,12 @@ apiVersion: v1
 kind: Service
 metadata:
   name: app-presente-back-service
-  namespace: stage-app-presente
+  namespace: production-app-presente
 spec:
   selector:
     app: app-presente-back
   ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 8000
+  - protocol: TCP
+    port: 8000
+    targetPort: 8000
   type: ClusterIP
