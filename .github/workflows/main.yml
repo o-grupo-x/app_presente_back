@@ -91,29 +91,21 @@ jobs:
     runs-on: ubuntu-latest
     needs: test
     if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
-    env:
-      PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-      CLUSTER_NAME: ${{ secrets.GKE_CLUSTER_NAME }}
-      GKE_ZONE: ${{ secrets.GKE_ZONE }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
-          credentials_json: "${{ secrets.GOOGLE_CLOUD_KEYS }}"
-
+          credentials_json: '${{ secrets.GOOGLE_CLOUD_KEYS }}'
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
-
       - name: Install gke-gcloud-auth-plugin
         run: |
           gcloud components install gke-gcloud-auth-plugin --quiet || { echo "Plugin installation failed"; exit 1; }
           gcloud components update --quiet
           which gke-gcloud-auth-plugin || { echo "Plugin not found"; exit 1; }
-
-      - name: Authenticate with GKE cluster
+      - name: Verify GKE authentication
         run: |
-          gcloud container clusters get-credentials ${{ env.CLUSTER_NAME }} --zone ${{ env.GKE_ZONE }} --project ${{ env.PROJECT_ID }}
+          gcloud container clusters get-credentials devops-cluster --region us-central1 --project app-chamada-5706
           kubectl version --client
