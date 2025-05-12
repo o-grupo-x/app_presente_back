@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: app-presente-back
-        image: guilherme310402/app_presente_backend:latest
+        image: guilherme310402/app_presente_back:latest
         ports:
         - containerPort: 8000
         envFrom:
