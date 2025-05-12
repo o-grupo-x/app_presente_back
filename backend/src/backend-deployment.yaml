@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-presente-back
+  namespace: stage-app-presente
+  labels:
+    app: app-presente-back
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-presente-back
+  template:
+    metadata:
+      labels:
+        app: app-presente-back
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+      - name: app-presente-back
+        image: us-central1-docker.pkg.dev/app-chamada-5706/presente-registry/presente-backend:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - secretRef:
+            name: app-presente-secrets
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          failureThreshold: 6
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 20
+          failureThreshold: 6
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/bin/sh", "-c", "sleep 5"]
+        resources:
+          limits:
+            cpu: "200m"
+            memory: "256Mi"
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
