@@ -11,7 +11,9 @@ WORKDIR /app
 COPY requirements.txt /app/
 
 # Instala as dependências necessárias para o ambiente de build
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
+
+RUN pip install flask
 
 # ----------------------------
 # Stage 2: Runtime - Usa uma imagem mais enxuta para rodar a aplicação
