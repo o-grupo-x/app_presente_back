@@ -18,7 +18,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
       - name: app-presente-back
-        image: us-central1-docker.pkg.dev/app-chamada-5706/presente-registry/presente-backend:latest
+        image: guilherme310402/app_presente_backend:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8080

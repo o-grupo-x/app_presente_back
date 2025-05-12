@@ -136,3 +136,9 @@ jobs:
         run: |
           gcloud container clusters get-credentials devops-cluster --region us-central1 --project app-chamada-5706
           kubectl version --client
+      - name: Deploy to stage
+        run: |
+          kubectl -n stage-app-presente apply -f backend/src/backend-deployment.yaml -f backend/src/backend-service.yaml
+      - name: Verify stage deployment
+        run: |
+          kubectl -n stage-app-presente rollout status deployment/app-presente-back --timeout=300s
