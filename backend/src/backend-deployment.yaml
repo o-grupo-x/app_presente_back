@@ -18,7 +18,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
       - name: app-presente-back
-        image: guilherme310402/app_presente_backend:stage
+        image: guilherme310402/app_presente_backend:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8000
