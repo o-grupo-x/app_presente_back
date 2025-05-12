@@ -10,7 +10,7 @@ WORKDIR /app
 # Copia o arquivo de requisitos para o contêiner
 COPY requirements.txt /app/
 
-# Instala as dependências necessárias para o ambiente de build
+# Instala as dependências necessárias para o ambiente de build  
 RUN pip install -r requirements.txt
 
 RUN pip install flask
