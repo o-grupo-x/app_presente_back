@@ -102,4 +102,3 @@ Para utilizar o APP Presente, é necessário possuir acesso à internet e um nav
 <a name="conclusao"></a>
 ## Conclusão <img src="https://img.icons8.com/?size=512&id=1ay0cDk955Il&format=png" height=28>
 O APP Presente é uma solução eficiente e prática para a gestão de presença em sala de aula. Com suas funcionalidades intuitivas e tecnologias modernas, o sistema oferece benefícios tanto para os professores quanto para a instituição, melhorando a eficiência das atividades acadêmicas e a tomada de decisões baseadas em dados.
-
