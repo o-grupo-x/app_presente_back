@@ -91,6 +91,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: test
     if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
+    env:
+      PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      CLUSTER_NAME: ${{ secrets.GKE_CLUSTER_NAME }}
+      GKE_ZONE: ${{ secrets.GKE_ZONE }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
