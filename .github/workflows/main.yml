@@ -152,9 +152,9 @@ jobs:
           kubectl -n stage-app-presente apply -f backend/src/backend-service.yaml
           kubectl -n stage-app-presente apply -f backend/src/backend-deployment.yaml
 
-      - name: Wait for Deployment rollout
-        run: |
-          kubectl -n stage-app-presente rollout status \
-            deployment/app-presente-back \
-            --timeout=300s
+      # - name: Wait for Deployment rollout
+      #   run: |
+      #     kubectl -n stage-app-presente rollout status \
+      #       deployment/app-presente-back \
+      #       --timeout=300s
  
