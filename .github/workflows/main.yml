@@ -209,7 +209,7 @@ jobs:
           
           kubectl patch deployment app-presente-back -n stage-app-presente \
             -p '{"spec":{"template":{"spec":{"nodeSelector":{"kubernetes.io/arch":"amd64"}}}}}'
-
-#
- #         kubectl rollout restart deployment/app-presente-back -n stage-app-presente
-  #        kubectl rollout status deployment/app-presente-back -n stage-app-presente --timeout=120s
+          
+          kubectl rollout restart deployment/app-presente-back -n stage-app-presente
+          
+          kubectl rollout status deployment/app-presente-back -n stage-app-presente --timeout=120s
