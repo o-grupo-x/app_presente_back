@@ -114,49 +114,101 @@ jobs:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
 
-  deploy-stage:
+  # deploy-stage:
+  #   runs-on: ubuntu-latest
+  #   needs: build
+  #   if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+
+  #     - name: Authenticate to Google Cloud
+  #       uses: google-github-actions/auth@v2
+  #       with:
+  #         credentials_json: "${{ secrets.GOOGLE_CLOUD_KEYS }}"
+
+  #     - name: Set up Google Cloud SDK
+  #       uses: google-github-actions/setup-gcloud@v2
+
+  #     - name: Install gke-gcloud-auth-plugin
+  #       run: |
+  #         gcloud components install gke-gcloud-auth-plugin --quiet
+  #         gcloud components update --quiet
+
+  #     - name: Get GKE credentials
+  #       run: |
+  #         gcloud container clusters get-credentials devops-cluster \
+  #           --region us-central1 \
+  #           --project app-chamada-5706
+
+  #     - name: Ensure namespace exists
+  #       run: |
+  #         kubectl get ns stage-app-presente || \
+  #           kubectl create ns stage-app-presente
+
+  #     - name: Deploy manifests
+  #       run: |
+  #         # Aplica primeiro o Service, depois o Deployment
+  #         kubectl -n stage-app-presente apply -f backend/src/backend-service.yaml
+  #         kubectl -n stage-app-presente apply -f backend/src/backend-deployment.yaml
+
+  #     - name: Wait for Deployment rollout
+  #       run: |
+  #         kubectl -n stage-app-presente rollout status \
+  #           deployment/app-presente-back \
+  #           --timeout=300s
+            
+  #     - name: Force restart of backend
+  #       run: kubectl rollout restart deployment app-presente-back -n stage-app-presente
+
+  deploy:
+    #needs: test
     runs-on: ubuntu-latest
-    needs: build
     if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
+    #environment: ${{ github.ref }}
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Authenticate to Google Cloud
+        with:
+          fetch-depth: 0
+  
+      - name: Get commit SHA
+        id: commit
+        run: echo "SHORT_SHA=$(git rev-parse --short=7 HEAD)" >> $GITHUB_OUTPUT
+  
+      - id: 'auth'
         uses: google-github-actions/auth@v2
         with:
-          credentials_json: "${{ secrets.GOOGLE_CLOUD_KEYS }}"
-
-      - name: Set up Google Cloud SDK
+          credentials_json: ${{ secrets.GOOGLE_CLOUD_KEYS }}
+          project_id: app-chamada-5706
+  
+      - name: Set up Cloud SDK and kubectl
         uses: google-github-actions/setup-gcloud@v2
-
+        with:
+          project_id: app-chamada-5706
+          install_components: 'kubectl'
+  
       - name: Install gke-gcloud-auth-plugin
         run: |
-          gcloud components install gke-gcloud-auth-plugin --quiet
-          gcloud components update --quiet
-
-      - name: Get GKE credentials
+          sudo curl -Lo /usr/local/bin/gke-gcloud-auth-plugin \
+            https://storage.googleapis.com/gke-release/gke-gcloud-auth-plugin/linux/amd64/gke-gcloud-auth-plugin
+          sudo chmod +x /usr/local/bin/gke-gcloud-auth-plugin
+          echo "USE_GKE_GCLOUD_AUTH_PLUGIN=True" >> $GITHUB_ENV
+  
+      - name: Configure kubectl
         run: |
-          gcloud container clusters get-credentials devops-cluster \
-            --region us-central1 \
+          gcloud container clusters get-credentials cluster-dev \
+            --region ${{ secrets.GKE_REGION }} \
             --project app-chamada-5706
-
-      - name: Ensure namespace exists
+  
+      - name: Deploy to Kubernetes
         run: |
-          kubectl get ns stage-app-presente || \
-            kubectl create ns stage-app-presente
+          kubectl set image deployment/app-presente-back -n stage-app-presente \
+            app-presente-back=guilherme310402/app_presente_back:latest
+          
+          kubectl patch deployment app-presente-back -n stage-app-presente \
+            -p '{"spec":{"template":{"spec":{"nodeSelector":{"kubernetes.io/arch":"amd64"}}}}}'
 
-      - name: Deploy manifests
-        run: |
-          # Aplica primeiro o Service, depois o Deployment
-          kubectl -n stage-app-presente apply -f backend/src/backend-service.yaml
-          kubectl -n stage-app-presente apply -f backend/src/backend-deployment.yaml
-
-      - name: Wait for Deployment rollout
-        run: |
-          kubectl -n stage-app-presente rollout status \
-            deployment/app-presente-back \
-            --timeout=300s
-            
-      - name: Force restart of backend
-        run: kubectl rollout restart deployment app-presente-back -n stage-app-presente
+          kubectl rollout restart deployment/app-presente-back -n stage-app-presente
+          kubectl rollout status deployment/app-presente-back -n stage-app-presente --timeout=120s
