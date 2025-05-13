@@ -133,7 +133,6 @@ jobs:
             --region us-central1 \
             --project app-chamada-5706
 
-      # ✅ Novo passo: define NAMESPACE com base na branch
       - name: Set environment variables
         run: |
           if [[ "${GITHUB_REF##*/}" == "main" ]]; then
@@ -142,13 +141,26 @@ jobs:
             echo "NAMESPACE=stage-app-presente" >> $GITHUB_ENV
           fi
 
-      # ✅ Novo passo: gera backend-service.yaml com namespace correto
-      - name: Replace namespace and apply Kubernetes manifest
+      - name: Generate and apply Kubernetes manifests (Service + Deployment)
         run: |
           export NAMESPACE=${{ env.NAMESPACE }}
+
+          # Gera o Service
           envsubst < backend/src/backend-service.template.yaml > backend-service.yaml
+
+          # Gera o Deployment
+          envsubst < backend/src/backend-deployment.template.yaml > backend-deployment.yaml
+
+          # Debug (opcional)
+          echo "=== backend-service.yaml ==="
           cat backend-service.yaml
+          echo "=== backend-deployment.yaml ==="
+          cat backend-deployment.yaml
+
+          # Aplica ambos
           kubectl apply -f backend-service.yaml
+          kubectl apply -f backend-deployment.yaml
+
 
       - name: Deploy to Kubernetes
         run: |
