@@ -4,12 +4,12 @@ name: Backend CI/CD - GCP Kubernetes
 on:
   push:
     branches:
-      - main
+      - master
       - dev
       - 'release/**'
   pull_request:
     branches:
-      - main
+      - master
       - dev
   workflow_dispatch:
 
@@ -135,7 +135,7 @@ jobs:
 
       - name: Set environment variables
         run: |
-          if [[ "${GITHUB_REF##*/}" == "main" ]]; then
+          if [[ "${GITHUB_REF##*/}" == "master" ]]; then
             echo "NAMESPACE=production-app-presente" >> $GITHUB_ENV
           else
             echo "NAMESPACE=stage-app-presente" >> $GITHUB_ENV
@@ -176,12 +176,12 @@ jobs:
 
 
   deploy-production:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     runs-on: ubuntu:latest
     needs: test
 
     steps:
-      - run: echo deploy da main em produção
+      - run: echo deploy da master em produção
 
   build:
     if: startsWith(github.ref, 'refs/heads/release/')
