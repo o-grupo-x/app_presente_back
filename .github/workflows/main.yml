@@ -176,11 +176,11 @@ jobs:
         with:
           server_address: smtp.gmail.com
           server_port: 587
-          username:  sparkytrinkle@gmail.com
+          username:  saler.scl@gmail.com
           password: ${{ secrets.EMAIL_PASS }}
           subject: "🚀 Nova versão em pré-produção disponível"
           to: saler.cez@gmail.com
-          from: "Presente CI/CD <sparkytrinkle@gmail.com>"
+          from: "Presente CI/CD <saler.scl@gmail.com>"
           html_body: |
             <h2>Nova versão em pré-produção</h2>
             <p>Uma nova imagem foi construída e enviada para o Docker Hub com base no branch <strong>${{ github.ref_name }}</strong>.</p>
