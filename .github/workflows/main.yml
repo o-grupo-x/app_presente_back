@@ -1,5 +1,4 @@
 name: Backend CI/CD - GCP Kubernetes
-##
 
 on:
   push:
@@ -35,6 +34,15 @@ jobs:
           - 5432:5432
         options: >-
           --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:latest
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -75,7 +83,7 @@ jobs:
       - name: Test Redis Connectivity
         working-directory: ./backend/src
         env:
-          REDIS_HOST: 35.232.92.107
+          REDIS_HOST: redis
           REDIS_PORT: 6379
           DEBUG: True
         run: |
@@ -88,7 +96,7 @@ jobs:
           POSTGRES_PASSWORD: Vkhn2W3LudKzzis
           DATABASE_IP: localhost
           SECRET_KEY: qualquercoisa
-          REDIS_HOST: 35.232.92.107
+          REDIS_HOST: redis
           REDIS_PORT: 6379
           DEBUG: True
         run: pytest tests/ -v
