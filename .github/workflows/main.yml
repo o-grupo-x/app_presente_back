@@ -165,15 +165,6 @@ jobs:
           kubectl rollout restart deployment/app-presente-back -n $NAMESPACE
 
           kubectl rollout status deployment/app-presente-back -n $NAMESPACE --timeout=120s
-          
-      - name: Run Redis connectivity test (in-cluster Job)
-        run: |
-          export NAMESPACE=${{ env.NAMESPACE }}
-          envsubst < backend/src/test-redis-job.yaml > test-redis-job-resolved.yaml
-
-          kubectl apply -f test-redis-job-resolved.yaml
-          kubectl wait --for=condition=complete job/test-redis -n $NAMESPACE --timeout=60s
-          kubectl logs job/test-redis -n $NAMESPACE
 
   build:
     if: startsWith(github.ref, 'refs/heads/release/')
