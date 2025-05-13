@@ -198,8 +198,8 @@ jobs:
   
       - name: Configure kubectl
         run: |
-          gcloud container clusters get-credentials cluster-dev \
-            --region ${{ secrets.GKE_REGION }} \
+          gcloud container clusters get-credentials devops-cluster \
+            --region us-central1 \
             --project app-chamada-5706
   
       - name: Deploy to Kubernetes
