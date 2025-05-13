@@ -103,47 +103,64 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-  
+
       - name: Get commit SHA
         id: commit
         run: echo "SHORT_SHA=$(git rev-parse --short=7 HEAD)" >> $GITHUB_OUTPUT
-  
+    
       - id: 'auth'
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GOOGLE_CLOUD_KEYS }}
           project_id: app-chamada-5706
-  
+
       - name: Set up Cloud SDK and kubectl
         uses: google-github-actions/setup-gcloud@v2
         with:
           project_id: app-chamada-5706
           install_components: 'kubectl'
-  
+
       - name: Install gke-gcloud-auth-plugin
         run: |
           sudo curl -Lo /usr/local/bin/gke-gcloud-auth-plugin \
             https://storage.googleapis.com/gke-release/gke-gcloud-auth-plugin/linux/amd64/gke-gcloud-auth-plugin
           sudo chmod +x /usr/local/bin/gke-gcloud-auth-plugin
           echo "USE_GKE_GCLOUD_AUTH_PLUGIN=True" >> $GITHUB_ENV
-  
+
       - name: Configure kubectl
         run: |
           gcloud container clusters get-credentials devops-cluster \
             --region us-central1 \
             --project app-chamada-5706
-  
+
+      # ✅ Novo passo: define NAMESPACE com base na branch
+      - name: Set environment variables
+        run: |
+          if [[ "${GITHUB_REF##*/}" == "main" ]]; then
+            echo "NAMESPACE=production-app-presente" >> $GITHUB_ENV
+          else
+            echo "NAMESPACE=stage-app-presente" >> $GITHUB_ENV
+          fi
+
+      # ✅ Novo passo: gera backend-service.yaml com namespace correto
+      - name: Replace namespace and apply Kubernetes manifest
+        run: |
+          envsubst < backend-service.template.yaml > backend-service.yaml
+          cat backend-service.yaml  # Para debug, opcional
+          kubectl apply -f backend-service.yaml
+
       - name: Deploy to Kubernetes
         run: |
-          kubectl set image deployment/app-presente-back -n stage-app-presente \
+          kubectl set image deployment/app-presente-back -n $NAMESPACE \
             app-presente-back=guilherme310402/app_presente_back:latest
-          
-          kubectl patch deployment app-presente-back -n stage-app-presente \
+
+          kubectl patch deployment app-presente-back -n $NAMESPACE \
             -p '{"spec":{"template":{"spec":{"nodeSelector":{"kubernetes.io/arch":"amd64"}}}}}'
-          
-          kubectl rollout restart deployment/app-presente-back -n stage-app-presente
-          
-          kubectl rollout status deployment/app-presente-back -n stage-app-presente --timeout=120s
+
+          kubectl rollout restart deployment/app-presente-back -n $NAMESPACE
+
+          kubectl rollout status deployment/app-presente-back -n $NAMESPACE --timeout=120s
+
 
   deploy-production:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
