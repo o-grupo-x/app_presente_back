@@ -93,10 +93,10 @@ jobs:
           DEBUG: True
         run: pytest tests/ -v
 
-  deploy-stage:
+  deploy:
     needs: test
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/master')
     
     steps:
       - name: Checkout code
@@ -173,19 +173,6 @@ jobs:
           kubectl rollout restart deployment/app-presente-back -n $NAMESPACE
 
           kubectl rollout status deployment/app-presente-back -n $NAMESPACE --timeout=120s
-
-
-  deploy-production:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-    runs-on: ubuntu:latest
-    needs: test
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - run: echo "deploy da master em produção"
 
   build:
     if: startsWith(github.ref, 'refs/heads/release/')
