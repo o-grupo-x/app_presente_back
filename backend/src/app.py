@@ -8,6 +8,6 @@ oidc.init_app(app)
 
 @app.route('/api/health')
 def health():
-    return jsonify({"status": "okk"}), 200
+    return jsonify({"status": "okk production"}), 200
 
 serve(app, host="0.0.0.0", port=8000)
