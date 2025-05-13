@@ -185,7 +185,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - run: echo deploy da master em produção
+      - run: echo "deploy da master em produção"
 
   build:
     if: startsWith(github.ref, 'refs/heads/release/')
