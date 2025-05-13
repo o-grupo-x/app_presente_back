@@ -2,9 +2,14 @@ name: Backend CI/CD - GCP Kubernetes
 
 on:
   push:
-    branches: [main, dev]
+    branches:
+      - main
+      - dev
+      - 'release/**'
   pull_request:
-    branches: [main, dev]
+    branches:
+      - main
+      - dev
   workflow_dispatch:
 
 env:
@@ -160,3 +165,28 @@ jobs:
             
       - name: Force restart of backend
         run: kubectl rollout restart deployment app-presente-back -n stage-app-presente
+
+  release-notification:
+    if: startsWith(github.ref, 'refs/heads/release/')
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Send email notification
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username:  sparkytrinkle@gmail.com
+          password: ${{ secrets.EMAIL_PASS }}
+          subject: "🚀 Nova versão em pré-produção disponível"
+          to: saler.cez@gmail.com
+          from: "Presente CI/CD <sparkytrinkle@gmail.com>"
+          content_type: text/html
+          body: |
+            <h2>Nova versão em pré-produção</h2>
+            <p>Uma nova imagem foi construída e enviada para o Docker Hub com base no branch <strong>${{ github.ref_name }}</strong>.</p>
+            <p><strong>Imagem:</strong> guilherme310402/app_presente_back:latest</p>
+            <p>Verifique os testes e prepare-se para o deploy em produção.</p>
+            <hr/>
+            <p>Workflow: <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">Ver execução</a></p>
+
