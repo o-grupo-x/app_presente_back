@@ -162,7 +162,7 @@ jobs:
   #       run: kubectl rollout restart deployment app-presente-back -n stage-app-presente
 
   deploy:
-    #needs: test
+    needs: test
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
     #environment: ${{ github.ref }}
