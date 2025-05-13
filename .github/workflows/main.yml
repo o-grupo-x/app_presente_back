@@ -181,12 +181,10 @@ jobs:
           subject: "🚀 Nova versão em pré-produção disponível"
           to: saler.cez@gmail.com
           from: "Presente CI/CD <sparkytrinkle@gmail.com>"
-          content_type: text/html
-          body: |
+          html_body: |
             <h2>Nova versão em pré-produção</h2>
             <p>Uma nova imagem foi construída e enviada para o Docker Hub com base no branch <strong>${{ github.ref_name }}</strong>.</p>
             <p><strong>Imagem:</strong> guilherme310402/app_presente_back:latest</p>
             <p>Verifique os testes e prepare-se para o deploy em produção.</p>
             <hr/>
             <p>Workflow: <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">Ver execução</a></p>
-
