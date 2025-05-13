@@ -28,7 +28,7 @@ jobs:
         image: postgres:latest
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: Vkhn2W3LudKzzis
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           POSTGRES_DB: app_presente
         ports:
           - 5432:5432
@@ -38,18 +38,18 @@ jobs:
           --health-timeout 5s
           --health-retries 5
       redis:
-        image: redis:latest
+        image: redis:7
         ports:
           - 6379:6379
         options: >-
-          --health-cmd "redis-cli ping"
+          --health-cmd "redis卓
           --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+          --health-timeout 10s
+          --health-retries 10
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -75,37 +75,28 @@ jobs:
 
       - name: Initialize Database and Insert Test User
         env:
-          PGPASSWORD: Vkhn2W3LudKzzis
+          PGPASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
         run: |
           psql -h localhost -p 5432 -U postgres -d app_presente -c "CREATE TABLE IF NOT EXISTS usuario (id_usuario SERIAL PRIMARY KEY, login VARCHAR(255), senha VARCHAR(255), nome VARCHAR(255), cargo VARCHAR(255), id_secretaria INTEGER);"
           psql -h localhost -p 5432 -U postgres -d app_presente -c "INSERT INTO usuario (id_usuario, login, senha, nome, cargo, id_secretaria) VALUES (9999, 'addda', 'teste123', 'Test User', 'Secretaria', 70) ON CONFLICT (id_usuario) DO NOTHING;"
-
-      - name: Test Redis Connectivity
-        working-directory: ./backend/src
-        env:
-          REDIS_HOST: redis
-          REDIS_PORT: 6379
-          DEBUG: True
-        run: |
-          python -c "import redis; r = redis.Redis(host='$REDIS_HOST', port=$REDIS_PORT, decode_responses=True); print(r.ping())"
 
       - name: Run Backend Tests
         working-directory: ./backend/src
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: Vkhn2W3LudKzzis
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           DATABASE_IP: localhost
-          SECRET_KEY: qualquercoisa
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
           REDIS_HOST: redis
           REDIS_PORT: 6379
           DEBUG: True
         run: pytest tests/ -v
 
-  deploy:
+  build-and-deploy:
     needs: test
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/master')
-    
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -115,17 +106,17 @@ jobs:
       - name: Get commit SHA
         id: commit
         run: echo "SHORT_SHA=$(git rev-parse --short=7 HEAD)" >> $GITHUB_OUTPUT
-    
-      - id: 'auth'
+
+      - id: auth
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GOOGLE_CLOUD_KEYS }}
-          project_id: app-chamada-5706
+          project_id: ${{ env.PROJECT_ID }}
 
       - name: Set up Cloud SDK and kubectl
         uses: google-github-actions/setup-gcloud@v2
         with:
-          project_id: app-chamada-5706
+          project_id: ${{ env.PROJECT_ID }}
           install_components: 'kubectl'
 
       - name: Install gke-gcloud-auth-plugin
@@ -135,54 +126,53 @@ jobs:
           sudo chmod +x /usr/local/bin/gke-gcloud-auth-plugin
           echo "USE_GKE_GCLOUD_AUTH_PLUGIN=True" >> $GITHUB_ENV
 
+      - name: Configure Docker for Artifact Registry
+        run: |
+          gcloud auth configure-docker ${{ env.GAR_LOCATION }}-docker.pkg.dev
+
+      - name: Build and push Docker image
+        working-directory: ./backend/src
+        run: |
+          docker build -t ${{ env.DOCKER_IMAGE }}:${{ steps.commit.outputs.SHORT_SHA }} .
+          docker push ${{ env.DOCKER_IMAGE }}:${{ steps.commit.outputs.SHORT_SHA }}
+
       - name: Configure kubectl
         run: |
-          gcloud container clusters get-credentials devops-cluster \
-            --region us-central1 \
-            --project app-chamada-5706
+          gcloud container clusters get-credentials ${{ env.CLUSTER_NAME }} \
+            --region ${{ env.GAR_LOCATION }} \
+            --project ${{ env.PROJECT_ID }}
 
       - name: Set environment variables
         run: |
-          if [[ "${GITHUB_REF##*/}" == "master" ]]; then
-            echo "NAMESPACE=production-app-presente" >> $GITHUB_ENV
-          else
-            echo "NAMESPACE=stage-app-presente" >> $GITHUB_ENV
-          fi
+          echo "NAMESPACE=production-app-presente" >> $GITHUB_ENV
 
       - name: Generate and apply Kubernetes manifests (Service + Deployment)
         run: |
           export NAMESPACE=${{ env.NAMESPACE }}
-
-          # Gera o Service
           envsubst < backend/src/backend-service.template.yaml > backend-service.yaml
-
-          # Gera o Deployment
           envsubst < backend/src/backend-deployment.template.yaml > backend-deployment.yaml
-
-          # Debug (opcional)
           echo "=== backend-service.yaml ==="
           cat backend-service.yaml
           echo "=== backend-deployment.yaml ==="
           cat backend-deployment.yaml
-
-          # Aplica ambos
           kubectl apply -f backend-service.yaml
           kubectl apply -f backend-deployment.yaml
 
-
       - name: Deploy to Kubernetes
         run: |
-          kubectl set image deployment/app-presente-back -n $NAMESPACE \
-            app-presente-back=guilherme310402/app_presente_back:latest
-
-          kubectl patch deployment app-presente-back -n $NAMESPACE \
+          kubectl set image deployment/${{ env.DEPLOYMENT_NAME }} -n ${{ env.NAMESPACE }} \
+            ${{ env.DEPLOYMENT_NAME }}=${{ env.DOCKER_IMAGE }}:${{ steps.commit.outputs.SHORT_SHA }}
+          kubectl patch deployment ${{ env.DEPLOYMENT_NAME }} -n ${{ env.NAMESPACE }} \
             -p '{"spec":{"template":{"spec":{"nodeSelector":{"kubernetes.io/arch":"amd64"}}}}}'
+          kubectl rollout restart deployment/${{ env.DEPLOYMENT_NAME }} -n ${{ env.NAMESPACE }}
+          kubectl rollout status deployment/${{ env.DEPLOYMENT_NAME }} -n ${{ env.NAMESPACE }} --timeout=120s
 
-          kubectl rollout restart deployment/app-presente-back -n $NAMESPACE
+      - name: Rollback on failure
+        if: failure()
+        run: |
+          kubectl rollout undo deployment/${{ env.DEPLOYMENT_NAME }} -n ${{ env.NAMESPACE }}
 
-          kubectl rollout status deployment/app-presente-back -n $NAMESPACE --timeout=120s
-
-  build:
+  build-release:
     if: startsWith(github.ref, 'refs/heads/release/')
     runs-on: ubuntu-latest
     needs: test
@@ -190,47 +180,50 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.11"
+      - name: Get commit SHA
+        id: commit
+        run: echo "SHORT_SHA=$(git rev-parse --short=7 HEAD)" >> $GITHUB_OUTPUT
 
-      - name: Install dependencies
-        working-directory: ./backend/src
+      - id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GOOGLE_CLOUD_KEYS }}
+          project_id: ${{ env.PROJECT_ID }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+
+      - name: Configure Docker for Artifact Registry
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          gcloud auth configure-docker ${{ env.GAR_LOCATION }}-docker.pkg.dev
 
       - name: Build and push Docker image
+        working-directory: ./backend/src
         run: |
-          docker build -t guilherme310402/app_presente_back:latest ./backend/src
-          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-          docker push guilherme310402/app_presente_back:latest
-        env:
-          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+          docker build -t ${{ env.DOCKER_IMAGE }}:${{ steps.commit.outputs.SHORT_SHA }} .
+          docker push ${{ env.DOCKER_IMAGE }}:${{ steps.commit.outputs.SHORT_SHA }}
 
   release-notification:
     if: startsWith(github.ref, 'refs/heads/release/')
     runs-on: ubuntu-latest
-    needs: build
+    needs: build-release
     steps:
       - name: Send email notification
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com
           server_port: 587
-          username:  saler.scl@gmail.com
+          username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASS }}
           subject: "🚀 Nova versão em pré-produção disponível"
-          to: saler.cez@gmail.com
-          from: "Presente CI/CD <saler.scl@gmail.com>"
+          to: ${{ secrets.NOTIFICATION_EMAIL }}
+          from: "Presente CI/CD <${{ secrets.EMAIL_USERNAME }}>"
           html_body: |
             <h2>Nova versão em pré-produção</h2>
-            <p>Uma nova imagem foi construída e enviada para o Docker Hub com base no branch <strong>${{ github.ref_name }}</strong>.</p>
-            <p><strong>Imagem:</strong> guilherme310402/app_presente_back:latest</p>
+            <p>Uma nova imagem foi construída e enviada para o Artifact Registry com base no branch <strong>${{ github.ref_name }}</strong>.</p>
+            <p><strong>Imagem:</strong> ${{ env.DOCKER_IMAGE }}:${{ steps.commit.outputs.SHORT_SHA }}</p>
             <p>Verifique os testes e prepare-se para o deploy em produção.</p>
             <hr/>
             <p>Workflow: <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">Ver execução</a></p>
-
-  
