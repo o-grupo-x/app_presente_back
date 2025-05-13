@@ -145,10 +145,10 @@ jobs:
       # ✅ Novo passo: gera backend-service.yaml com namespace correto
       - name: Replace namespace and apply Kubernetes manifest
         run: |
+          export NAMESPACE=${{ env.NAMESPACE }}
           envsubst < backend/src/backend-service.template.yaml > backend-service.yaml
-          cat backend-service.yaml  # Para debug, opcional
+          cat backend-service.yaml
           kubectl apply -f backend-service.yaml
-
 
       - name: Deploy to Kubernetes
         run: |
