@@ -92,8 +92,11 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t guilherme310402/app_presente_back:latest ./backend/src
+          COMMIT_SHA=${{ github.sha }}
+          docker build -t guilherme310402/app_presente_back:$COMMIT_SHA ./backend/src
+          docker tag guilherme310402/app_presente_back:$COMMIT_SHA guilherme310402/app_presente_back:latest
           echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+          docker push guilherme310402/app_presente_back:$COMMIT_SHA
           docker push guilherme310402/app_presente_back:latest
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
