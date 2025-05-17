@@ -72,11 +72,7 @@ jobs:
           psql -h localhost -p 5432 -U postgres -d app_presente -c "INSERT INTO usuario (id_usuario, login, senha, nome, cargo, id_secretaria) VALUES (9999, 'addda', 'teste123', 'Test User', 'Secretaria', 70) ON CONFLICT (id_usuario) DO NOTHING;"
 
   build:
-    if: github.event_name == 'push' && (
-      github.ref == 'refs/heads/master' ||
-      github.ref == 'refs/heads/dev' ||
-      startsWith(github.ref, 'refs/heads/release/')
-    )
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' || startsWith(github.ref, 'refs/heads/release/')
     runs-on: ubuntu-latest
     needs: test
     steps:
