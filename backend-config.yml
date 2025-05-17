@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+data:
+  DEBUG: "False"
+  TESTING: "False"
+  WTF_CSRF_ENABLED: "True"
+  MAIL_DEFAULT_SENDER: "NOT_FOUND"
+  REDIS_HOST: "redis"
+  REDIS_PORT: "6379"
+  DATABASE_IP: "db"

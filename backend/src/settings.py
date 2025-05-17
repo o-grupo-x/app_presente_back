@@ -1,12 +1,12 @@
 import os
-from dotenv import load_dotenv
+from dotenv import load_dotenv 
 from datetime import timedelta
 
 load_dotenv()
 
 # -*- coding: utf-8 -*-
-DATABASE_LOGIN = os.environ.get('DATABASE_LOGIN')
-DATABASE_PASS = os.environ.get('DATABASE_SENHA')
+POSTGRES_USER = os.environ.get('POSTGRES_USER')
+POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD')
 DATABASE_IP = os.environ.get('DATABASE_IP')
 
 # flask core settings
@@ -26,9 +26,18 @@ WTF_CSRF_ENABLED = True
 # flask mail settings
 
 #MAIL_DEFAULT_SENDER =os.environ.get('MAIL_DEFAULT_SENDER')
-SQLALCHEMY_DATABASE_URI = f'postgresql+psycopg://{DATABASE_LOGIN}:{DATABASE_PASS}@{DATABASE_IP}/app_presente'
+SQLALCHEMY_DATABASE_URI = f'postgresql+psycopg://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{DATABASE_IP}:5432/app_presente'
 
 # Redis
 REDIS_HOST = os.environ.get('REDIS_HOST')
 REDIS_PORT = os.environ.get('REDIS_PORT')
 REDIS_PASSWORD = os.environ.get('REDIS_PASSWORD')
+
+REDIS_URL = f'redis://:{REDIS_PASSWORD}@{REDIS_HOST}:6379'
+#redis://[:password]@host:port
+
+
+# POSTGRES_USER = os.environ.get('POSTGRES_USER')
+# POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD')
+# POSTGRES_DB = os.environ.get('POSTGRES_DB')
+# POSTGRES_HOST = os.environ.get('POSTGRES_HOST')
