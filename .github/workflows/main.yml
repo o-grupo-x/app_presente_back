@@ -94,10 +94,9 @@ jobs:
         run: |
           COMMIT_SHA=${{ github.sha }}
           docker build -t guilherme310402/app_presente_back:$COMMIT_SHA ./backend/src
-          docker tag guilherme310402/app_presente_back:$COMMIT_SHA guilherme310402/app_presente_back:latest
-          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" |
+              docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
           docker push guilherme310402/app_presente_back:$COMMIT_SHA
-          docker push guilherme310402/app_presente_back:latest
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -165,15 +164,12 @@ jobs:
 
       - name: Deploy to Kubernetes
         run: |
+          COMMIT_SHA=${{ github.sha }}
           kubectl set image deployment/app-presente-back -n $NAMESPACE \
-            app-presente-back=guilherme310402/app_presente_back:latest
-
-          kubectl patch deployment app-presente-back -n $NAMESPACE \
-            -p '{"spec":{"template":{"spec":{"nodeSelector":{"kubernetes.io/arch":"amd64"}}}}}'
-
-          kubectl rollout restart deployment app-presente-back -n $NAMESPACE
-
-          kubectl rollout status deployment/app-presente-back -n $NAMESPACE --timeout=120s
+            app-presente-back=guilherme310402/app_presente_back:$COMMIT_SHA
+      
+          kubectl rollout status deployment/app-presente-back \
+            -n $NAMESPACE --timeout=120s
 
   release-notification:
     if: startsWith(github.ref, 'refs/heads/release/')
