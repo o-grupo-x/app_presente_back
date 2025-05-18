@@ -8,7 +8,7 @@ oidc.init_app(app)
 
 @app.route('/api/health')
 def health():
-    return jsonify({"status": "okk Laercio is on fire e fabio is on fire também"}), 200
+    return jsonify({"status": "okk Laercio is on fire"}), 200
 
 print("🚀 Versão de teste de deploy: v1.0.4")
 
