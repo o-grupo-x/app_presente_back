@@ -1,5 +1,4 @@
 name: Backend CI/CD - GCP Kubernetes
-##
 
 on:
   push:
@@ -72,42 +71,49 @@ jobs:
           psql -h localhost -p 5432 -U postgres -d app_presente -c "CREATE TABLE IF NOT EXISTS usuario (id_usuario SERIAL PRIMARY KEY, login VARCHAR(255), senha VARCHAR(255), nome VARCHAR(255), cargo VARCHAR(255), id_secretaria INTEGER);"
           psql -h localhost -p 5432 -U postgres -d app_presente -c "INSERT INTO usuario (id_usuario, login, senha, nome, cargo, id_secretaria) VALUES (9999, 'addda', 'teste123', 'Test User', 'Secretaria', 70) ON CONFLICT (id_usuario) DO NOTHING;"
 
-      - name: Test Redis Connectivity
-        working-directory: ./backend/src
-        env:
-          REDIS_HOST: 35.232.92.107
-          REDIS_PORT: 6379
-          DEBUG: True
-        run: |
-          python -c "import redis; r = redis.Redis(host='$REDIS_HOST', port=$REDIS_PORT, decode_responses=True); print(r.ping())"
+  build:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' || startsWith(github.ref, 'refs/heads/release/')
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Run Backend Tests
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
         working-directory: ./backend/src
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Build and push Docker image
+        run: |
+          COMMIT_SHA=${{ github.sha }}
+          docker build -t guilherme310402/app_presente_back:$COMMIT_SHA ./backend/src
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" |
+              docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+          docker push guilherme310402/app_presente_back:$COMMIT_SHA
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: Vkhn2W3LudKzzis
-          DATABASE_IP: localhost
-          SECRET_KEY: qualquercoisa
-          REDIS_HOST: 35.232.92.107
-          REDIS_PORT: 6379
-          DEBUG: True
-        run: pytest tests/ -v
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
 
   deploy:
-    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' || startsWith(github.ref, 'refs/heads/release/')
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/master')
-    
+    needs: build
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Get commit SHA
-        id: commit
+      - id: commit
         run: echo "SHORT_SHA=$(git rev-parse --short=7 HEAD)" >> $GITHUB_OUTPUT
-    
+
       - id: 'auth'
         uses: google-github-actions/auth@v2
         with:
@@ -137,70 +143,37 @@ jobs:
         run: |
           if [[ "${GITHUB_REF##*/}" == "master" ]]; then
             echo "NAMESPACE=production-app-presente" >> $GITHUB_ENV
+            gcloud container clusters get-credentials devops-cluster \
+              --region us-central1 --project app-chamada-5706
           else
             echo "NAMESPACE=stage-app-presente" >> $GITHUB_ENV
+            gcloud container clusters get-credentials stage-app-presente \
+              --region us-east1 --project app-chamada-5706
           fi
 
       - name: Generate and apply Kubernetes manifests (Service + Deployment)
         run: |
           export NAMESPACE=${{ env.NAMESPACE }}
 
-          # Gera o Service
           envsubst < backend/src/backend-service.template.yaml > backend-service.yaml
-
-          # Gera o Deployment
           envsubst < backend/src/backend-deployment.template.yaml > backend-deployment.yaml
 
-          # Debug (opcional)
           echo "=== backend-service.yaml ==="
           cat backend-service.yaml
           echo "=== backend-deployment.yaml ==="
           cat backend-deployment.yaml
 
-          # Aplica ambos
           kubectl apply -f backend-service.yaml
           kubectl apply -f backend-deployment.yaml
 
-
       - name: Deploy to Kubernetes
         run: |
+          COMMIT_SHA=${{ github.sha }}
           kubectl set image deployment/app-presente-back -n $NAMESPACE \
-            app-presente-back=guilherme310402/app_presente_back:latest
-
-          kubectl patch deployment app-presente-back -n $NAMESPACE \
-            -p '{"spec":{"template":{"spec":{"nodeSelector":{"kubernetes.io/arch":"amd64"}}}}}'
-
-          kubectl rollout restart deployment/app-presente-back -n $NAMESPACE
-
-          kubectl rollout status deployment/app-presente-back -n $NAMESPACE --timeout=120s
-
-  build:
-    if: startsWith(github.ref, 'refs/heads/release/')
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.11"
-
-      - name: Install dependencies
-        working-directory: ./backend/src
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      - name: Build and push Docker image
-        run: |
-          docker build -t guilherme310402/app_presente_back:latest ./backend/src
-          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-          docker push guilherme310402/app_presente_back:latest
-        env:
-          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+            app-presente-back=guilherme310402/app_presente_back:$COMMIT_SHA
+      
+          kubectl rollout status deployment/app-presente-back \
+            -n $NAMESPACE --timeout=120s
 
   release-notification:
     if: startsWith(github.ref, 'refs/heads/release/')
@@ -212,7 +185,7 @@ jobs:
         with:
           server_address: smtp.gmail.com
           server_port: 587
-          username:  saler.scl@gmail.com
+          username: saler.scl@gmail.com
           password: ${{ secrets.EMAIL_PASS }}
           subject: "🚀 Nova versão em pré-produção disponível"
           to: saler.cez@gmail.com
@@ -221,8 +194,5 @@ jobs:
             <h2>Nova versão em pré-produção</h2>
             <p>Uma nova imagem foi construída e enviada para o Docker Hub com base no branch <strong>${{ github.ref_name }}</strong>.</p>
             <p><strong>Imagem:</strong> guilherme310402/app_presente_back:latest</p>
-            <p>Verifique os testes e prepare-se para o deploy em produção.</p>
             <hr/>
             <p>Workflow: <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">Ver execução</a></p>
-
-  
