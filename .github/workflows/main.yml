@@ -16,7 +16,8 @@ env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   GAR_LOCATION: us-central1
   CLUSTER_NAME: app-prod-1720e7a1   # Automatiza sa porra logo !
-  GKE_ZONE: ${{ secrets.GKE_ZONE }}
+  # GKE_ZONE: ${{ secrets.GKE_ZONE }}
+  GKE_ZONE: us-central1-a
   DEPLOYMENT_NAME: presente-backend
   DOCKER_IMAGE: us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/presente-registry/presente-backend
 
