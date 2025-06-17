@@ -2,23 +2,19 @@ name: Backend CI/CD - GCP Kubernetes
 
 on:
   push:
-    branches:
-      - master
-      - dev
-      - 'release/**'
+    branches: [master, dev, 'release/**']
   pull_request:
-    branches:
-      - master
-      - dev
+    branches: [master, dev]
   workflow_dispatch:
 
 env:
-  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  PROJECT_ID: app-chamada-5706
   GAR_LOCATION: us-central1
-  CLUSTER_NAME: ${{ secrets.GKE_CLUSTER_NAME }}
-  GKE_ZONE: ${{ secrets.GKE_ZONE }}
+  CLUSTER_NAME: app-prod-1720e7a1 # Automatiza sa porra logo !
+  GKE_ZONE: us-central1-a
+  NAMESPACE: app-chamada-production
   DEPLOYMENT_NAME: presente-backend
-  DOCKER_IMAGE: us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/presente-registry/presente-backend
+  DOCKER_IMAGE: us-central1-docker.pkg.dev/app-chamada-5706/containers/presente-backend
 
 jobs:
   test:
@@ -39,8 +35,7 @@ jobs:
           --health-retries 5
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -72,58 +67,37 @@ jobs:
           psql -h localhost -p 5432 -U postgres -d app_presente -c "INSERT INTO usuario (id_usuario, login, senha, nome, cargo, id_secretaria) VALUES (9999, 'addda', 'teste123', 'Test User', 'Secretaria', 70) ON CONFLICT (id_usuario) DO NOTHING;"
 
   build:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' || startsWith(github.ref, 'refs/heads/release/')
-    runs-on: ubuntu-latest
     needs: test
+    runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.11"
-
-      - name: Install dependencies
-        working-directory: ./backend/src
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+      - uses: actions/checkout@v4
 
       - name: Build and push Docker image
         run: |
           COMMIT_SHA=${{ github.sha }}
-          docker build -t guilherme310402/app_presente_back:$COMMIT_SHA ./backend/src
-          echo "${{ secrets.DOCKERHUB_TOKEN }}" |
-              docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-          docker push guilherme310402/app_presente_back:$COMMIT_SHA
-        env:
-          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+          docker build -t $DOCKER_IMAGE:$COMMIT_SHA ./backend/src
+
+          echo "${{ secrets.GCP_SA_KEY }}" | docker login -u _json_key --password-stdin https://$GAR_LOCATION-docker.pkg.dev
+
+          docker push $DOCKER_IMAGE:$COMMIT_SHA
 
   deploy:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' || startsWith(github.ref, 'refs/heads/release/')
-    runs-on: ubuntu-latest
     needs: build
+    runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      - uses: actions/checkout@v4
 
-      - id: commit
-        run: echo "SHORT_SHA=$(git rev-parse --short=7 HEAD)" >> $GITHUB_OUTPUT
-
-      - id: 'auth'
+      - id: auth
         uses: google-github-actions/auth@v2
         with:
-          credentials_json: ${{ secrets.GOOGLE_CLOUD_KEYS }}
-          project_id: app-chamada-5706
+          credentials_json: ${{ secrets.GCP_CREDENTIALS_JSON }}
 
       - name: Set up Cloud SDK and kubectl
         uses: google-github-actions/setup-gcloud@v2
         with:
-          project_id: app-chamada-5706
+          project_id: ${{ env.PROJECT_ID }}
           install_components: 'kubectl'
 
       - name: Install gke-gcloud-auth-plugin
@@ -133,62 +107,21 @@ jobs:
           sudo chmod +x /usr/local/bin/gke-gcloud-auth-plugin
           echo "USE_GKE_GCLOUD_AUTH_PLUGIN=True" >> $GITHUB_ENV
 
-      - name: Configure kubectl
+      - name: Get cluster credentials
         run: |
-          gcloud container clusters get-credentials devops-cluster \
-            --region us-central1 \
-            --project app-chamada-5706
-
-      - name: Set environment variables
-        run: |
-          if [[ "${GITHUB_REF##*/}" == "master" ]]; then
-            echo "NAMESPACE=production-app-presente" >> $GITHUB_ENV
-          else
-            echo "NAMESPACE=stage-app-presente" >> $GITHUB_ENV
-          fi
-
-      - name: Generate and apply Kubernetes manifests (Service + Deployment)
-        run: |
-          export NAMESPACE=${{ env.NAMESPACE }}
-
-          envsubst < backend/src/backend-service.template.yaml > backend-service.yaml
-          envsubst < backend/src/backend-deployment.template.yaml > backend-deployment.yaml
-
-          echo "=== backend-service.yaml ==="
-          cat backend-service.yaml
-          echo "=== backend-deployment.yaml ==="
-          cat backend-deployment.yaml
-
-          kubectl apply -f backend-service.yaml
-          kubectl apply -f backend-deployment.yaml
+          gcloud container clusters get-credentials $CLUSTER_NAME \
+            --zone $GKE_ZONE \
+            --project $PROJECT_ID
 
       - name: Deploy to Kubernetes
         run: |
           COMMIT_SHA=${{ github.sha }}
-          kubectl set image deployment/app-presente-back -n $NAMESPACE \
-            app-presente-back=guilherme310402/app_presente_back:$COMMIT_SHA
-      
-          kubectl rollout status deployment/app-presente-back \
-            -n $NAMESPACE --timeout=120s
 
-  release-notification:
-    if: startsWith(github.ref, 'refs/heads/release/')
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Send email notification
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: smtp.gmail.com
-          server_port: 587
-          username: saler.scl@gmail.com
-          password: ${{ secrets.EMAIL_PASS }}
-          subject: "🚀 Nova versão em pré-produção disponível"
-          to: saler.cez@gmail.com
-          from: "Presente CI/CD <saler.scl@gmail.com>"
-          html_body: |
-            <h2>Nova versão em pré-produção</h2>
-            <p>Uma nova imagem foi construída e enviada para o Docker Hub com base no branch <strong>${{ github.ref_name }}</strong>.</p>
-            <p><strong>Imagem:</strong> guilherme310402/app_presente_back:latest</p>
-            <hr/>
-            <p>Workflow: <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">Ver execução</a></p>
+          kubectl apply -f backend/src/backend-service.yaml
+          kubectl apply -f backend/src/backend-deployment.yaml
+
+          kubectl set image deployment/$DEPLOYMENT_NAME -n $NAMESPACE \
+            $DEPLOYMENT_NAME=$DOCKER_IMAGE:$COMMIT_SHA
+
+          kubectl rollout status deployment/$DEPLOYMENT_NAME \
+            -n $NAMESPACE --timeout=120s
