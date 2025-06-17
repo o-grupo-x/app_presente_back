@@ -10,10 +10,9 @@ on:
 env:
   PROJECT_ID: app-chamada-5706
   GAR_LOCATION: us-central1
-  CLUSTER_NAME: app-prod-1720e7a1   # Automatiza sa porra logo !
-  # GKE_ZONE: ${{ secrets.GKE_ZONE }}
+  CLUSTER_NAME: app-prod-1720e7a1
   GKE_ZONE: us-central1-a
-  DEPLOYMENT_NAME: presente-backend
+  NAMESPACE: app-chamada-production
   DOCKER_IMAGE: us-central1-docker.pkg.dev/app-chamada-5706/containers/presente-backend
 
 jobs:
@@ -70,8 +69,7 @@ jobs:
     needs: test
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
@@ -89,10 +87,8 @@ jobs:
       - name: Build and push Docker image
         run: |
           COMMIT_SHA=${{ github.sha }}
-          docker build -t guilherme310402/app_presente_back:$COMMIT_SHA .
-          echo "${{ secrets.DOCKERHUB_TOKEN }}" |
-              docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-          docker push guilherme310402/app_presente_back:$COMMIT_SHA
+          docker build -t ${{ env.DOCKER_IMAGE }}:$COMMIT_SHA .
+          docker push ${{ env.DOCKER_IMAGE }}:$COMMIT_SHA
 
   deploy:
     runs-on: ubuntu-latest
@@ -100,6 +96,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
@@ -124,31 +121,22 @@ jobs:
             --zone ${{ env.GKE_ZONE }} \
             --project ${{ env.PROJECT_ID }}
 
-      - name: Set environment variables
+      - name: Create namespace if not exists
         run: |
-          if [[ "${GITHUB_REF##*/}" == "master" ]]; then
-            echo "NAMESPACE=app-chamada-production" >> $GITHUB_ENV
-          else
-            echo "NAMESPACE=stage-app-presente" >> $GITHUB_ENV
-          fi
+          kubectl get namespace ${{ env.NAMESPACE }} || kubectl create namespace ${{ env.NAMESPACE }}
 
-      - name: Generate and apply Kubernetes manifests (Service + Deployment)
+      - name: Apply Kubernetes manifests
         run: |
-          export NAMESPACE=${{ env.NAMESPACE }}
-
-          envsubst < backend-service.yaml > backend-service.yaml
-          envsubst < backend-deployment.yaml > backend-deployment.yaml
-
-          kubectl apply -f backend-service.yaml
-          kubectl apply -f backend-deployment.yaml
+          kubectl apply -f backend-service.yaml -n ${{ env.NAMESPACE }}
+          kubectl apply -f backend-deployment.yaml -n ${{ env.NAMESPACE }}
 
       - name: Deploy to Kubernetes
         run: |
           COMMIT_SHA=${{ github.sha }}
-          kubectl set image deployment/app-presente-back -n $NAMESPACE \
-            app-presente-back=$DOCKER_IMAGE:$COMMIT_SHA
+          kubectl set image deployment/app-presente-back -n ${{ env.NAMESPACE }} \
+            app-presente-back=${{ env.DOCKER_IMAGE }}:$COMMIT_SHA
           kubectl rollout status deployment/app-presente-back \
-            -n $NAMESPACE --timeout=120s
+            -n ${{ env.NAMESPACE }} --timeout=120s
 
   release-notification:
     if: startsWith(github.ref, 'refs/heads/release/')
@@ -169,6 +157,6 @@ jobs:
           html_body: |
             <h2>Nova versão em pré-produção</h2>
             <p>Uma nova imagem foi construída e enviada para o Artifact Registry com base no branch <strong>${{ github.ref_name }}</strong>.</p>
-            <p><strong>Imagem:</strong> $DOCKER_IMAGE:latest</p>
+            <p><strong>Imagem:</strong> ${{ env.DOCKER_IMAGE }}:latest</p>
             <hr/>
             <p>Workflow: <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">Ver execução</a></p>
