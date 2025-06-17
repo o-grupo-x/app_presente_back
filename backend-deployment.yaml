@@ -22,9 +22,9 @@ spec:
         - containerPort: 8000
         env:
         - name: SQLALCHEMY_DATABASE_URI
-          value: "postgresql+psycopg2://postgres:Vkhn2W3LudKzzis@app-presente-db-service.app-presente.svc.cluster.local/app_presente"
+          value: "postgresql+psycopg2://postgres:Vkhn2W3LudKzzis@app-presente-db-service.app-chamada-production.svc.cluster.local/app_presente"
         - name: REDIS_HOST
-          value: "app-presente-redis-service.app-presente.svc.cluster.local"
+          value: "app-presente-redis-service.app-chamada-production.svc.cluster.local"
         - name: REDIS_PORT
           value: "6379"
         readinessProbe:
