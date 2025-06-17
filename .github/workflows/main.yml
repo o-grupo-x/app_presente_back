@@ -2,24 +2,19 @@ name: Backend CI/CD - GCP Kubernetes
 
 on:
   push:
-    branches:
-      - master
-      - dev
-      - 'release/**'
+    branches: [master, dev, 'release/**']
   pull_request:
-    branches:
-      - master
-      - dev
+    branches: [master, dev]
   workflow_dispatch:
 
 env:
-  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  PROJECT_ID: app-chamada-5706
   GAR_LOCATION: us-central1
   CLUSTER_NAME: app-prod-1720e7a1   # Automatiza sa porra logo !
   # GKE_ZONE: ${{ secrets.GKE_ZONE }}
   GKE_ZONE: us-central1-a
   DEPLOYMENT_NAME: presente-backend
-  DOCKER_IMAGE: us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/presente-registry/presente-backend
+  DOCKER_IMAGE: us-central1-docker.pkg.dev/app-chamada-5706/containers/presente-backend
 
 jobs:
   test:
@@ -40,8 +35,7 @@ jobs:
           --health-retries 5
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -105,11 +99,7 @@ jobs:
     needs: build
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
+      - uses: actions/checkout@v4
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:

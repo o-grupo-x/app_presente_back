@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: test-redis
+  namespace: ${NAMESPACE}
+spec:
+  backoffLimit: 1
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: redis-tester
+        image: python:3.11
+        command: ["sh", "-c"]
+        args:
+          - |
+            pip install redis && \
+            python -c "import redis; r = redis.Redis(host='app-presente-redis-service', port=6379, decode_responses=True); print('Redis PING:', r.ping())"
