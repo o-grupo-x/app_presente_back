@@ -125,6 +125,12 @@ jobs:
         run: |
           kubectl get namespace ${{ env.NAMESPACE }} || kubectl create namespace ${{ env.NAMESPACE }}
 
+      - name: Cleanup Old ReplicaSets
+        run: |
+          kubectl get rs -n ${{ env.NAMESPACE }} --no-headers | \
+          awk '/app-presente-back/ {print $1}' | \
+          xargs -r kubectl delete rs -n ${{ env.NAMESPACE }}
+
       - name: Apply Kubernetes manifests
         run: |
           kubectl apply -f backend-service.yaml -n ${{ env.NAMESPACE }}
@@ -136,7 +142,7 @@ jobs:
           kubectl set image deployment/app-presente-back -n ${{ env.NAMESPACE }} \
             app-presente-back=${{ env.DOCKER_IMAGE }}:$COMMIT_SHA
           kubectl rollout status deployment/app-presente-back \
-            -n ${{ env.NAMESPACE }} --timeout=120s
+            -n ${{ env.NAMESPACE }} --timeout=180s
 
   release-notification:
     if: startsWith(github.ref, 'refs/heads/release/')
