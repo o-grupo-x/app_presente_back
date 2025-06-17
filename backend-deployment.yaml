@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: app-presente-back
-  namespace: app-presente
+  namespace: app-chamada-production
   labels:
     app: app-presente-back
 spec:
