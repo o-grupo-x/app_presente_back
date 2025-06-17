@@ -125,11 +125,11 @@ jobs:
         run: |
           kubectl get namespace ${{ env.NAMESPACE }} || kubectl create namespace ${{ env.NAMESPACE }}
 
-      - name: Cleanup Old ReplicaSets
+      - name: Cleanup Old ReplicaSets and Pods
         run: |
-          kubectl get rs -n ${{ env.NAMESPACE }} --no-headers | \
-          awk '/app-presente-back/ {print $1}' | \
-          xargs -r kubectl delete rs -n ${{ env.NAMESPACE }}
+          echo "Cleaning old ReplicaSets and Pods..."
+          kubectl delete rs -n ${{ env.NAMESPACE }} -l app=app-presente-back --ignore-not-found
+          kubectl delete pod -n ${{ env.NAMESPACE }} -l app=app-presente-back --ignore-not-found --force --grace-period=0
 
       - name: Apply Kubernetes manifests
         run: |
