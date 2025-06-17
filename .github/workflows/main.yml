@@ -10,7 +10,7 @@ on:
 env:
   PROJECT_ID: app-chamada-5706
   GAR_LOCATION: us-central1
-  CLUSTER_NAME: app-prod-1720e7a1
+  CLUSTER_NAME: app-prod-fa395f7c
   GKE_ZONE: us-central1-a
   NAMESPACE: app-chamada-production
   DOCKER_IMAGE: us-central1-docker.pkg.dev/app-chamada-5706/containers/presente-backend
