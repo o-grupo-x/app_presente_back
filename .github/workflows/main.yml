@@ -136,8 +136,8 @@ jobs:
         run: |
           export NAMESPACE=${{ env.NAMESPACE }}
 
-          envsubst < backend/src/backend-service.yaml > backend-service.yaml
-          envsubst < backend/src/backend-deployment.yaml > backend-deployment.yaml
+          envsubst < backend-service.yaml > backend-service.yaml
+          envsubst < backend-deployment.yaml > backend-deployment.yaml
 
           kubectl apply -f backend-service.yaml
           kubectl apply -f backend-deployment.yaml
