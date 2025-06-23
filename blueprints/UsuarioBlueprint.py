@@ -8,10 +8,10 @@ from service.UsuarioService import UsuarioService
 
 usuarios = Blueprint("usuario", __name__)
 
-@usuarios.route("/api/usuario", methods=['GET', 'POST', 'PUT', 'DELETE'])
+@usuarios.route("/usuario", methods=['GET', 'POST', 'PUT', 'DELETE'])
 # @jwt_required()
 def usuario():
-    logging.info('Rota /api/usuario acessada.')
+    logging.info('Rota /usuario acessada.')
     if request.method == 'GET':
         id_usuario = request.args.get('id')
         try:
@@ -67,7 +67,7 @@ def usuario():
         logging.error(f'Erro inesperado ao deletar usuário: {error}')
         return jsonify({"error": "Erro interno do servidor"}), 500
 
-@usuarios.route("/api/login", methods=['POST'])
+@usuarios.route("/login", methods=['POST'])
 def login():
     if not request.is_json:
         return jsonify({"error": "Content-Type must be application/json"}), 400
@@ -102,7 +102,7 @@ def login():
         logging.error(f'Erro na tentativa de realizar login: {error}')
         return jsonify({"error": str(error)}), 400
 
-@usuarios.route("/api/logout", methods=['POST'])
+@usuarios.route("/logout", methods=['POST'])
 @jwt_required()
 def logout():
     try:
