@@ -45,7 +45,7 @@ def create_app(config_file='settings.py'):
     # Specify allowed origins, methods, and headers
     CORS(app, resources={
         r"/api/*": {
-            "origins": ["http://127.0.0.1:*", "http://localhost:*", "https://app.odeiojava.com.br"],
+            "origins": ["http://127.0.0.1:*", "http://localhost:*", "https://app.odeiojava.com.br", "http://35.223.77.94"],
             "methods": ["GET", "POST", "OPTIONS"],
             "allow_headers": ["Content-Type", "Authorization"]
         }
