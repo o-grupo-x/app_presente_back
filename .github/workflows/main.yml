@@ -63,8 +63,8 @@ jobs:
       matrix:
         env: [production, stage]
     env:
-      PROJECT_ID: ${{ matrix.env == 'production' && 'app-chamada-5706' || 'stage-app-presente' }}
-      CLUSTER_NAME: ${{ matrix.env == 'production' && 'app-prod-fa395f7c' || 'stage-app-presente' }}
+      PROJECT_ID: ${{ matrix.env == 'production' && 'app-chamada-5706' || 'app-chamada-stage' }}
+      CLUSTER_NAME: ${{ matrix.env == 'production' && 'app-prod-fa395f7c' || 'app-chamada-stage' }}
       GKE_ZONE: ${{ matrix.env == 'production' && 'us-central1-a' || 'us-west1-a' }}
       NAMESPACE: ${{ matrix.env == 'production' && 'app-chamada-production' || 'stage-app-presente' }}
       GAR_LOCATION: us-central1
@@ -100,8 +100,8 @@ jobs:
       matrix:
         env: [production, stage]
     env:
-      PROJECT_ID: ${{ matrix.env == 'production' && 'app-chamada-5706' || 'stage-app-presente' }}
-      CLUSTER_NAME: ${{ matrix.env == 'production' && 'app-prod-fa395f7c' || 'stage-app-presente' }}
+      PROJECT_ID: ${{ matrix.env == 'production' && 'app-chamada-5706' || 'app-chamada-stage' }}
+      CLUSTER_NAME: ${{ matrix.env == 'production' && 'app-prod-fa395f7c' || 'app-chamada-stage' }}
       GKE_ZONE: ${{ matrix.env == 'production' && 'us-central1-a' || 'us-west1-a' }}
       NAMESPACE: ${{ matrix.env == 'production' && 'app-chamada-production' || 'stage-app-presente' }}
       GAR_LOCATION: us-central1
