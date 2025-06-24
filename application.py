@@ -111,7 +111,7 @@ def create_app(config_file='settings.py'):
     app.register_blueprint(secretaria)
     app.register_blueprint(materias)
     app.register_blueprint(turmas)
-    app.register_blueprint(usuarios, url_prefix="/api")
+    app.register_blueprint(usuarios)
     app.register_blueprint(configuracoes)
 
     app.logger.info('Aplicativo inicializado com sucesso.')
