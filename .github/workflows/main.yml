@@ -99,6 +99,9 @@ jobs:
     strategy:
       matrix:
         env: [production, stage]
+    if: |
+      (github.ref == 'refs/heads/master' && matrix.env == 'production') ||
+      (github.ref == 'refs/heads/dev' && matrix.env == 'stage')
     env:
       PROJECT_ID: ${{ matrix.env == 'production' && 'app-chamada-5706' || 'app-chamada-stage' }}
       CLUSTER_NAME: ${{ matrix.env == 'production' && 'app-prod-fa395f7c' || 'app-chamada-stage' }}
@@ -133,15 +136,13 @@ jobs:
             --zone ${{ env.GKE_ZONE }} \
             --project ${{ env.PROJECT_ID }}
 
-      - name: Generate and apply Kubernetes manifests (Service + Deployment)
+      - name: Apply Kubernetes manifests (Service + Deployment + Ingress)
         run: |
-          export NAMESPACE=${{ env.NAMESPACE }}
-          envsubst < backend-service.yaml > backend-service.yaml
-          envsubst < backend-deployment.yaml > backend-deployment.yaml
           kubectl apply -f backend-service.yaml
           kubectl apply -f backend-deployment.yaml
+          kubectl apply -f backend-ingress.yaml
 
-      - name: Deploy to Kubernetes
+      - name: Deploy updated image
         run: |
           COMMIT_SHA=${{ github.sha }}
           kubectl set image deployment/app-presente-back -n ${{ env.NAMESPACE }} \
