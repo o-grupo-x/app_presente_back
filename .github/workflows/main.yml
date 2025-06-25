@@ -99,7 +99,6 @@ jobs:
       GKE_ZONE: us-west1-a
       NAMESPACE: stage-app-presente
       DOCKER_IMAGE: guilherme310402/app_presente_back
-      POSTGRES_PASSWORD: Vkhn2W3LudKzzis
     steps:
       - uses: actions/checkout@v4
 
@@ -125,12 +124,11 @@ jobs:
           kubectl apply -f backend-service.yaml
           kubectl apply -f backend-ingress.yaml
 
-      - name: Render and apply Deployment
+      - name: Deploy updated image
         run: |
-          export COMMIT_SHA=${{ github.sha }}
-          export DOCKER_IMAGE POSTGRES_PASSWORD
-          envsubst < backend-deployment.template.yaml > backend-deployment.yaml
-          kubectl apply -f backend-deployment.yaml
+          COMMIT_SHA=${{ github.sha }}
+          kubectl set image deployment/app-presente-back -n ${{ env.NAMESPACE }} \
+            app-presente-back=${{ env.DOCKER_IMAGE }}:$COMMIT_SHA
 
       - name: Wait for rollout
         run: |
