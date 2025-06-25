@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 load_dotenv()
 
 # Database settings
-SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI', 'postgresql+psycopg2://postgres:Vkhn2W3LudKzzis@localhost/app_presente')
+SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://postgres:Vkhn2W3LudKzzis@app-presente-db-service.stage-app-presente.svc.cluster.local/app_presente"
 logger.info(f"Using SQLALCHEMY_DATABASE_URI: {SQLALCHEMY_DATABASE_URI}")
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
@@ -27,7 +27,7 @@ HANDLER = "StreamHandler"
 
 WTF_CSRF_ENABLED = os.environ.get('WTF_CSRF_ENABLED', 'True') == 'True'
 
-REDIS_HOST = os.environ.get('REDIS_HOST', '35.202.222.14')
+REDIS_HOST = os.environ.get('REDIS_HOST', '34.118.231.30')
 REDIS_PORT = int(os.environ.get('REDIS_PORT', 6379))
 REDIS_PASSWORD = os.environ.get('REDIS_PASSWORD', 'redis')
 

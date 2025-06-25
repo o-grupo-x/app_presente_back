@@ -3,8 +3,6 @@ kind: Deployment
 metadata:
   name: app-presente-back
   namespace: stage-app-presente
-  labels:
-    app: app-presente-back
 spec:
   replicas: 1
   selector:
@@ -17,14 +15,14 @@ spec:
     spec:
       containers:
       - name: app-presente-back
-        image: guilherme310402/app_presente_back:$COMMIT_SHA
+        image: ${DOCKER_IMAGE}:${COMMIT_SHA}
         ports:
         - containerPort: 8000
         env:
         - name: SQLALCHEMY_DATABASE_URI
-          value: "postgresql+psycopg2://postgres:Vkhn2W3LudKzzis@app-presente-db-service.app-chamada-production.svc.cluster.local/app_presente"
+          value: "postgresql+psycopg2://postgres:${POSTGRES_PASSWORD}@app-presente-db-service.stage-app-presente.svc.cluster.local/app_presente"
         - name: REDIS_HOST
-          value: "app-presente-redis.app-chamada-production.svc.cluster.local"
+          value: "app-presente-redis.stage-app-presente.svc.cluster.local"
         - name: REDIS_PORT
           value: "6379"
         readinessProbe:
