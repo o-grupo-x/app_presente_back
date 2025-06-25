@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: app-presente-back
-        image: guilherme310402/app_presente_back:latest
+        image: guilherme310402/app_presente_back:$COMMIT_SHA
         ports:
         - containerPort: 8000
         env:
