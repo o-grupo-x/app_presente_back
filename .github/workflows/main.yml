@@ -120,10 +120,6 @@ jobs:
             --zone ${{ env.GKE_ZONE }} \
             --project ${{ env.PROJECT_ID }}
 
-      - name: Apply Redis on stage
-        run: |
-          kubectl apply -f redis-stage.yaml
-
       - name: Apply Service & Ingress
         run: |
           kubectl apply -f backend-service.yaml
