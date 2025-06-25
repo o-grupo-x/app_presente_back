@@ -3,6 +3,8 @@ from dotenv import load_dotenv
 from redis import Redis
 from datetime import timedelta
 import logging
+import pickle
+
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -35,7 +37,9 @@ REDIS_PASSWORD = os.environ.get('REDIS_PASSWORD', 'redis')
 SESSION_TYPE = 'redis'
 SESSION_PERMANENT = False
 SESSION_USE_SIGNER = os.environ.get('DEBUG', 'False') == 'False'
-SESSION_KEY_PREFIX = 'session:'
+# SESSION_KEY_PREFIX = 'session:'
+SESSION_KEY_PREFIX = 'session_v2:'
+SESSION_SERIALIZER = pickle
 # SESSION_REDIS = None
 SESSION_REDIS = Redis(
     host=REDIS_HOST,
