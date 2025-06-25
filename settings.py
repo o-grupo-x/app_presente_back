@@ -27,7 +27,7 @@ HANDLER = "StreamHandler"
 
 WTF_CSRF_ENABLED = os.environ.get('WTF_CSRF_ENABLED', 'True') == 'True'
 
-REDIS_HOST = os.environ.get('REDIS_HOST', '35.202.222.14')
+REDIS_HOST = os.environ.get('REDIS_HOST', '34.118.230.117')
 REDIS_PORT = int(os.environ.get('REDIS_PORT', 6379))
 REDIS_PASSWORD = os.environ.get('REDIS_PASSWORD', 'redis')
 
