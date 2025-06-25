@@ -68,7 +68,7 @@ jobs:
       GKE_ZONE: ${{ matrix.env == 'production' && 'us-central1-a' || 'us-west1-a' }}
       NAMESPACE: ${{ matrix.env == 'production' && 'app-chamada-production' || 'stage-app-presente' }}
       GAR_LOCATION: us-central1
-      DOCKER_IMAGE: ${{ matrix.env == 'production' && 'us-central1-docker.pkg.dev/app-chamada-5706/containers/presente-backend' || 'us-central1-docker.pkg.dev/app-chamada-stage/containers/presente-backend' }}
+      DOCKER_IMAGE: ${{ matrix.env == 'production' && 'guilherme310402/app_presente_back' || 'guilherme310402/app_presente_back' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -103,7 +103,7 @@ jobs:
       GKE_ZONE: us-west1-a
       NAMESPACE: stage-app-presente
       GAR_LOCATION: us-central1
-      DOCKER_IMAGE: us-central1-docker.pkg.dev/app-chamada-stage/containers/presente-backend
+      DOCKER_IMAGE: guilherme310402/app_presente_back
     steps:
       - uses: actions/checkout@v4
 
@@ -131,10 +131,13 @@ jobs:
             --zone ${{ env.GKE_ZONE }} \
             --project ${{ env.PROJECT_ID }}
 
-      - name: Apply Kubernetes manifests (Service + Deployment + Ingress)
+      - name: Render and apply Kubernetes manifests
         run: |
+          COMMIT_SHA=${{ github.sha }}
+          export COMMIT_SHA
+          envsubst < backend-deployment.yaml > backend-deployment.gen.yaml
           kubectl apply -f backend-service.yaml
-          kubectl apply -f backend-deployment.yaml
+          kubectl apply -f backend-deployment.gen.yaml
           kubectl apply -f backend-ingress.yaml
 
       - name: Deploy updated image
