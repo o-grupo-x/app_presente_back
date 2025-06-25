@@ -1,5 +1,6 @@
 import os
 from dotenv import load_dotenv
+from redis import Redis
 from datetime import timedelta
 import logging
 
@@ -27,7 +28,7 @@ HANDLER = "StreamHandler"
 
 WTF_CSRF_ENABLED = os.environ.get('WTF_CSRF_ENABLED', 'True') == 'True'
 
-REDIS_HOST = os.environ.get('REDIS_HOST', '35.202.222.14')
+REDIS_HOST = os.environ.get('REDIS_HOST', 'app-presente-redis-service.app-chamada-production.svc.cluster.local')
 REDIS_PORT = int(os.environ.get('REDIS_PORT', 6379))
 REDIS_PASSWORD = os.environ.get('REDIS_PASSWORD', 'redis')
 
@@ -35,4 +36,9 @@ SESSION_TYPE = 'redis'
 SESSION_PERMANENT = False
 SESSION_USE_SIGNER = os.environ.get('DEBUG', 'False') == 'False'
 SESSION_KEY_PREFIX = 'session:'
-SESSION_REDIS = None
+# SESSION_REDIS = None
+SESSION_REDIS = Redis(
+    host=REDIS_HOST,
+    port=REDIS_PORT,
+    password=REDIS_PASSWORD or None,
+)

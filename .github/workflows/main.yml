@@ -2,7 +2,7 @@ name: Backend CI/CD - GCP Kubernetes
 
 on:
   push:
-    branches: [master, dev, 'release/**']
+    branches: [master, dev, 'release/**', saler/**]
   pull_request:
     branches: [master, dev]
   workflow_dispatch:
